@@ -44,7 +44,7 @@
       </div>
 
       <div class="login-footer">
-        <p>默认账号: admin / admin123</p>
+        <p>如忘记密码，请联系技术支持</p>
       </div>
     </div>
   </div>
@@ -55,6 +55,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const API_BASE = import.meta.env.VITE_API_BASE || ''
+
 const loading = ref(false)
 const captchaText = ref('')
 
@@ -78,7 +80,7 @@ onMounted(() => {
   refreshCaptcha()
 })
 
-function handleLogin() {
+async function handleLogin() {
   if (!loginForm.username || !loginForm.password) {
     alert('请输入用户名和密码')
     return
@@ -93,25 +95,36 @@ function handleLogin() {
 
   loading.value = true
 
-  // 从环境变量获取管理员账号密码
-  const ADMIN_USER = import.meta.env.VITE_ADMIN_USER || 'admin'
-  const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS || 'admin123'
+  try {
+    const response = await fetch(`${API_BASE}/admin/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: loginForm.username,
+        password: loginForm.password
+      })
+    })
 
-  // 模拟登录
-  setTimeout(() => {
-    if (loginForm.username === ADMIN_USER && loginForm.password === ADMIN_PASS) {
+    const result = await response.json()
+
+    if (result.code === 0) {
       // 保存登录状态
-      localStorage.setItem('admin_token', 'demo_token_' + Date.now())
-      localStorage.setItem('admin_user', JSON.stringify({
-        username: 'admin',
-        nickname: '管理员'
-      }))
+      localStorage.setItem('admin_token', result.data.token)
+      localStorage.setItem('admin_user', JSON.stringify(result.data.user))
       router.push('/admin')
     } else {
-      alert('用户名或密码错误')
+      alert(result.message || '登录失败')
+      refreshCaptcha()
     }
+  } catch (error) {
+    console.error('登录失败:', error)
+    alert('登录失败，请稍后重试')
+    refreshCaptcha()
+  } finally {
     loading.value = false
-  }, 1000)
+  }
 }
 </script>
 
