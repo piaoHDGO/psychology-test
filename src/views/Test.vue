@@ -343,7 +343,9 @@ function submitTest() {
     functions,
     chart
   }
+  console.log('Saving result:', fullResult)
   userStore.saveTestResult(fullResult)
+  console.log('Result saved, redirecting to:', `/result/${resultId}`)
 
   // 跳转到结果页
   router.push(`/result/${resultId}`)

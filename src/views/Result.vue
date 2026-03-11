@@ -225,17 +225,28 @@ function getQuizIcon(code) {
   return icons[code] || '📝'
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // 确保userStore已初始化
+  if (!userStore.testHistory || userStore.testHistory.length === 0) {
+    // 尝试从localStorage加载
+    userStore.init()
+    // 等待一小段时间让store初始化完成
+    await new Promise(resolve => setTimeout(resolve, 100))
+  }
+
   const id = route.params.id
+  console.log('Result page - id:', id, 'history:', userStore.testHistory)
   // 从用户历史中查找结果
   const historyItem = userStore.testHistory.find(r => r.id === id)
 
   if (historyItem) {
     result.value = historyItem
+    console.log('Result found:', result.value)
     // 如果测试本身是免费的(paid=0)，直接显示完整内容
     // 如果测试是付费的(paid=1)，则检查是否已购买
     isPaid.value = historyItem.paid === 0 || historyItem.isPaid === true
   } else {
+    console.log('Result not found, redirecting to home')
     // 结果不存在，返回首页
     router.push('/')
   }
