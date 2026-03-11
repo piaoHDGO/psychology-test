@@ -132,28 +132,74 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getQuizList } from '@/data/quizzes'
+
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080/api'
 
 const quizzes = ref(getQuizList())
 
 const stats = ref({
-  totalTests: quizzes.value.length,
-  totalUsers: 128,
-  totalRevenue: 35680,
-  todayOrders: 23
+  totalTests: 0,
+  totalUsers: 0,
+  totalRevenue: 0,
+  todayOrders: 0
 })
 
-const weekData = ref([65, 78, 45, 89, 72, 95, 82])
+const weekData = ref([0, 0, 0, 0, 0, 0, 0])
 const weekLabels = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
 
-const pieData = ref([
-  { name: 'MBTI', value: 35, color: '#667eea' },
-  { name: '心理年龄', value: 25, color: '#38ef7d' },
-  { name: '星座', value: 20, color: '#ff9966' },
-  { name: '八字', value: 12, color: '#ff5e62' },
-  { name: '其他', value: 8, color: '#a8edea' }
-])
+const pieData = ref([])
+
+// 从API获取统计数据
+async function fetchStats() {
+  try {
+    const response = await fetch(`${API_BASE}/stats/stats?period=7d`)
+    const data = await response.json()
+
+    if (data.code === 0) {
+      const s = data.data
+      stats.value = {
+        totalTests: s.totalTests || 0,
+        totalUsers: s.totalUsers || 0,
+        totalRevenue: s.totalRevenue || 0,
+        todayOrders: s.periodPaidOrders || 0
+      }
+
+      // 更新趋势图数据
+      if (s.trendData && s.trendData.length > 0) {
+        const tests = s.trendData.map(d => d.tests)
+        const maxTests = Math.max(...tests, 1)
+        weekData.value = tests.map(t => (t / maxTests) * 100)
+      }
+    }
+  } catch (e) {
+    console.error('获取统计数据失败:', e)
+  }
+}
+
+// 获取测试类型分布
+async function fetchQuizStats() {
+  try {
+    const response = await fetch(`${API_BASE}/stats/stats?period=all`)
+    const data = await response.json()
+
+    if (data.code === 0 && data.data.trendData) {
+      // 从趋势数据计算各测试的分布
+      const quizCounts = {}
+      data.data.trendData.forEach(d => {
+        // 这里可以进一步获取每个quiz的统计
+      })
+    }
+  } catch (e) {
+    console.error('获取测试分布失败:', e)
+  }
+}
+
+onMounted(() => {
+  fetchStats()
+  fetchQuizStats()
+})
 
 function getCategoryName(category) {
   const names = {

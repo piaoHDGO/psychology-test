@@ -5,6 +5,7 @@
       <div class="poster-card" ref="posterRef">
         <!-- 海报顶部 -->
         <div class="poster-header gradient-bg">
+          <div class="poster-brand">心理测试</div>
           <div class="poster-icon">{{ quizIcon }}</div>
           <div class="poster-title">{{ quizName }}</div>
         </div>
@@ -21,12 +22,12 @@
               <img :src="qrCodeUrl" alt="扫码测试" />
             </div>
             <div class="qr-tip">长按识别二维码</div>
-            <div class="qr-tip">测试你的{{ quizName }}</div>
+            <div class="qr-tip">我在mindceshi.cn测出了{{ resultType }}，你也来测测吧</div>
           </div>
 
           <!-- 底部 -->
           <div class="poster-footer">
-            <div class="footer-text">心理测试大全</div>
+            <div class="footer-text">mindceshi.cn · 专业的心理测试平台</div>
           </div>
         </div>
       </div>
@@ -36,6 +37,7 @@
         <button class="btn-save" @click="savePoster">保存图片</button>
         <button class="btn-share" @click="sharePoster">分享给朋友</button>
       </div>
+      <div class="share-tip">分享到朋友圈/好友，一起测试吧</div>
       <button class="btn-close" @click="close">关闭</button>
     </div>
   </div>
@@ -94,13 +96,19 @@ async function savePoster() {
 }
 
 function sharePoster() {
-  // 唤起微信分享
+  const shareText = `我在mindceshi.cn测出了${props.resultType}${props.resultName}，你也来测测吧！`
+
+  // 唤起系统分享
   if (navigator.share) {
     navigator.share({
       title: `我的${props.quizName}结果是${props.resultType}`,
-      text: props.resultDesc,
+      text: shareText,
       url: window.location.href
     })
+  } else if (navigator.clipboard) {
+    // 复制链接到剪贴板
+    navigator.clipboard.writeText(` ${shareText} ${window.location.href}`)
+    alert('链接已复制到剪贴板，快去分享给朋友吧！')
   } else {
     alert('请长按海报保存图片分享')
   }
@@ -141,13 +149,24 @@ function sharePoster() {
   }
 
   .poster-header {
-    padding: 30px 20px;
+    padding: 30px 20px 25px;
     text-align: center;
     color: white;
+    position: relative;
+
+    .poster-brand {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      opacity: 0.8;
+      letter-spacing: 2px;
+    }
 
     .poster-icon {
-      font-size: 40px;
-      margin-bottom: 10px;
+      font-size: 48px;
+      margin-bottom: 8px;
     }
 
     .poster-title {
@@ -213,8 +232,8 @@ function sharePoster() {
       border-top: 1px dashed #eee;
 
       .footer-text {
-        font-size: 12px;
-        color: #ccc;
+        font-size: 11px;
+        color: #999;
       }
     }
   }
@@ -254,6 +273,13 @@ function sharePoster() {
     color: #999;
     font-size: 14px;
     cursor: pointer;
+  }
+
+  .share-tip {
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    margin-top: 8px;
   }
 }
 

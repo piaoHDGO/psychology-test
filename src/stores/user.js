@@ -72,6 +72,12 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  // 删除测试结果
+  function deleteTestResult(resultId) {
+    testHistory.value = testHistory.value.filter(r => r.id !== resultId)
+    localStorage.setItem('testHistory', JSON.stringify(testHistory.value))
+  }
+
   return {
     userInfo,
     isLoggedIn,
@@ -81,6 +87,7 @@ export const useUserStore = defineStore('user', () => {
     init,
     saveTestResult,
     hasPurchased,
-    markAsPurchased
+    markAsPurchased,
+    deleteTestResult
   }
 })

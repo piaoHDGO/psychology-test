@@ -54,9 +54,12 @@
             </div>
             <div class="history-time">{{ formatTime(item.createdAt) }}</div>
           </div>
-          <div class="history-status">
-            <span v-if="item.isPaid" class="status-paid">已购买</span>
-            <span v-else class="status-unpaid">未购买</span>
+          <div class="history-actions">
+            <div class="history-status">
+              <span v-if="item.isPaid" class="status-paid">已购买</span>
+              <span v-else class="status-unpaid">未购买</span>
+            </div>
+            <button class="btn-delete" @click="deleteHistory(item.id, $event)">删除</button>
           </div>
         </div>
       </div>
@@ -115,9 +118,21 @@ function getIcon(code) {
     mbti: '🎯',
     age: '🧠',
     color: '🎨',
-    star: '⭐'
+    star: '⭐',
+    bazi: '🔮',
+    career: '💼',
+    eq: '🧡'
   }
   return icons[code] || '📝'
+}
+
+// 删除历史记录
+function deleteHistory(id, event) {
+  event.stopPropagation()
+  if (confirm('确定删除这条测试记录吗？')) {
+    userStore.deleteTestResult(id)
+    testHistory.value = userStore.testHistory
+  }
 }
 
 function formatTime(timeStr) {
@@ -303,6 +318,13 @@ function viewResult(id) {
     }
   }
 
+  .history-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
   .history-status {
     font-size: 12px;
 
@@ -318,6 +340,21 @@ function viewResult(id) {
       background: #fff0f0;
       padding: 4px 10px;
       border-radius: 4px;
+    }
+  }
+
+  .btn-delete {
+    font-size: 12px;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+
+    &:hover {
+      color: #ff6b6b;
+      background: #fff0f0;
     }
   }
 }

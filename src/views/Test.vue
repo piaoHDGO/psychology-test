@@ -6,6 +6,21 @@
       <p>加载中...</p>
     </div>
 
+    <!-- 恢复进度弹窗 -->
+    <div v-if="showResumeDialog && !loading && quiz" class="resume-dialog-overlay">
+      <div class="resume-dialog">
+        <div class="resume-icon">📝</div>
+        <div class="resume-title">您有上次未完成的测试</div>
+        <div class="resume-info">
+          已完成 {{ savedProgressData?.currentIndex + 1 || 0 }} / {{ quiz?.questions?.length || 0 }} 题
+        </div>
+        <div class="resume-buttons">
+          <button class="btn-resume" @click="resumeProgress">继续答题</button>
+          <button class="btn-restart" @click="restartTest">重新开始</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 空状态 -->
     <div v-else-if="!quiz" class="empty-state">
       <p>测试不存在</p>
@@ -74,10 +89,33 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080/api'
+
+// 记录统计事件
+async function recordStat(event, quizCode, extra = {}) {
+  try {
+    await fetch(`${API_BASE}/stats/record`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event,
+        quizCode,
+        ...extra
+      })
+    })
+  } catch (e) {
+    console.error('记录统计失败:', e)
+  }
+}
+
 const quiz = ref(null)
 const loading = ref(true)
 const answers = ref([])
 const currentIndex = ref(0)
+const showResumeDialog = ref(false)
+const savedProgressData = ref(null)
+
+const PROGRESS_EXPIRY_DAYS = 7
 
 // 监听路由参数变化，重新加载测试
 watch(() => route.params.code, async (newCode) => {
@@ -148,17 +186,46 @@ async function loadQuiz(code) {
     loading.value = false
   }
 
-  // 检查是否有保存的进度
+  // 检查是否有保存的进度（未过期）
   const savedProgress = localStorage.getItem(`progress_${code}`)
   if (savedProgress) {
     try {
       const data = JSON.parse(savedProgress)
-      answers.value = data.answers
-      currentIndex.value = data.currentIndex
+      const savedTime = data.savedAt ? new Date(data.savedAt).getTime() : 0
+      const now = Date.now()
+      const expiryMs = PROGRESS_EXPIRY_DAYS * 24 * 60 * 60 * 1000
+
+      // 检查是否在7天内
+      if (now - savedTime < expiryMs && data.answers && data.answers.length > 0) {
+        savedProgressData.value = data
+        showResumeDialog.value = true
+      } else {
+        // 过期了，删除旧进度
+        localStorage.removeItem(`progress_${code}`)
+      }
     } catch (e) {
       console.error('恢复进度失败', e)
+      localStorage.removeItem(`progress_${code}`)
     }
   }
+}
+
+// 继续上次答题
+function resumeProgress() {
+  if (savedProgressData.value) {
+    answers.value = savedProgressData.value.answers
+    currentIndex.value = savedProgressData.value.currentIndex
+  }
+  showResumeDialog.value = false
+}
+
+// 重新开始
+function restartTest() {
+  // 清除保存的进度
+  localStorage.removeItem(`progress_${quiz.value.code}`)
+  answers.value = new Array(quiz.value.questions?.length || 0).fill(undefined)
+  currentIndex.value = 0
+  showResumeDialog.value = false
 }
 
 onMounted(async () => {
@@ -175,10 +242,11 @@ function selectOption(index) {
     answers.value[currentIndex.value] = index
   }
 
-  // 保存进度到localStorage
+  // 保存进度到localStorage（带时间戳）
   localStorage.setItem(`progress_${quiz.value.code}`, JSON.stringify({
     answers: answers.value,
-    currentIndex: currentIndex.value
+    currentIndex: currentIndex.value,
+    savedAt: new Date().toISOString()
   }))
 
   // 自动跳转到下一题（延时100ms让用户看到选中效果）
@@ -355,6 +423,10 @@ function submitTest() {
   }
   console.log('Saving result:', fullResult)
   userStore.saveTestResult(fullResult)
+
+  // 记录测试完成统计
+  recordStat('test_complete', quiz.value.code)
+
   console.log('Result saved, redirecting to:', `/result/${resultId}`)
 
   // 跳转到结果页
@@ -533,6 +605,85 @@ function submitTest() {
     font-size: 16px;
     font-weight: 600;
     border-radius: 30px;
+  }
+}
+
+.resume-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.resume-dialog {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  margin: 20px;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+
+  .resume-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .resume-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+  }
+
+  .resume-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  .resume-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .btn-resume {
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    .btn-restart {
+      padding: 14px;
+      background: #f5f5f5;
+      color: #666;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #e8e8e8;
+      }
+    }
   }
 }
 </style>

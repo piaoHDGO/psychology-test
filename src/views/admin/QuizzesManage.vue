@@ -21,6 +21,16 @@
             <button class="btn-edit" @click="editQuiz(quiz)">编辑</button>
             <button class="btn-questions" @click="editQuestions(quiz)">题目</button>
             <button class="btn-results" @click="editResults(quiz)">报告模板</button>
+            <button
+              v-if="quiz.status === 1"
+              class="btn-offline"
+              @click="toggleStatus(quiz)"
+            >下线</button>
+            <button
+              v-else
+              class="btn-online"
+              @click="toggleStatus(quiz)"
+            >发布上线</button>
           </div>
         </div>
         <div class="quiz-details">
@@ -239,6 +249,29 @@ function getCategoryName(category) {
 function editQuiz(quiz) {
   Object.assign(editForm, quiz)
   showEditModal.value = true
+}
+
+// 切换上下线状态
+function toggleStatus(quiz) {
+  const newStatus = quiz.status === 1 ? 0 : 1
+  const action = newStatus === 1 ? '上线' : '下线'
+
+  if (confirm(`确定要${action}「${quiz.name}」吗？`)) {
+    quiz.status = newStatus
+    // 保存到本地存储
+    const quizList = JSON.parse(localStorage.getItem('quizzes') || '[]')
+    const index = quizList.findIndex(q => q.code === quiz.code)
+    if (index !== -1) {
+      quizList[index].status = newStatus
+      localStorage.setItem('quizzes', JSON.stringify(quizList))
+    }
+    // 同时更新 quizzes 响应式数组
+    const localQuiz = quizzes.value.find(q => q.code === quiz.code)
+    if (localQuiz) {
+      localQuiz.status = newStatus
+    }
+    alert(`已${action}`)
+  }
 }
 
 function editQuestions(quiz) {
@@ -460,6 +493,16 @@ async function saveQuiz() {
       .btn-questions, .btn-results {
         background: #e3f2fd;
         color: #1976d2;
+      }
+
+      .btn-offline {
+        background: #fff3e0;
+        color: #f57c00;
+      }
+
+      .btn-online {
+        background: #e8f5e9;
+        color: #388e3c;
       }
     }
   }

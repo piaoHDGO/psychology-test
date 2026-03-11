@@ -143,6 +143,13 @@
         </div>
       </div>
 
+      <!-- 免责声明 -->
+      <div class="disclaimer-section">
+        <p class="disclaimer-title">免责声明</p>
+        <p class="disclaimer-content">{{ disclaimer }}</p>
+        <p class="disclaimer-source">内容来源：{{ contentSource }}</p>
+      </div>
+
       <!-- 分享 -->
       <div class="share-section">
         <button class="btn-share" @click="showSharePoster = true">
@@ -199,6 +206,46 @@ const isPaid = ref(false)
 const isPaying = ref(false)
 const showSharePoster = ref(false)
 
+// 免责声明
+const disclaimer = ref('本测试结果仅供娱乐参考，不能替代专业的心理咨询或医学诊断。如有心理困扰，请咨询专业心理医生。')
+const contentSource = ref('心理测试平台原创内容')
+
+// 加载系统配置
+async function loadSettings() {
+  try {
+    const response = await fetch(`${API_BASE}/admin/settings`)
+    const data = await response.json()
+    if (data.code === 0 && data.data) {
+      if (data.data.disclaimer) {
+        disclaimer.value = data.data.disclaimer
+      }
+      if (data.data.content_source) {
+        contentSource.value = data.data.content_source
+      }
+    }
+  } catch (e) {
+    console.error('加载配置失败:', e)
+  }
+}
+
+// 记录支付统计
+async function recordPayment(amount, quizCode, orderNo) {
+  try {
+    await fetch(`${API_BASE}/stats/record`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'payment',
+        quizCode,
+        amount,
+        orderNo
+      })
+    })
+  } catch (e) {
+    console.error('记录支付统计失败:', e)
+  }
+}
+
 // 计算 MBTI 各维度得分
 const mbtiScores = computed(() => {
   if (result.value.quizCode !== 'mbti' || !result.value.answers) {
@@ -227,6 +274,9 @@ function getQuizIcon(code) {
 }
 
 onMounted(async () => {
+  // 加载系统配置（免责声明等）
+  loadSettings()
+
   // 确保userStore已初始化
   if (!userStore.testHistory || userStore.testHistory.length === 0) {
     // 尝试从localStorage加载
@@ -320,6 +370,8 @@ function handlePay() {
         onSuccess: () => {
           userStore.markAsPurchased(result.value.quizCode, result.value.id)
           isPaid.value = true
+          // 记录支付统计
+          recordPayment(result.value.price, result.value.quizCode, data.data?.orderNo)
           alert('支付成功！报告已解锁。')
         },
         onCancel: () => {
@@ -339,6 +391,8 @@ function handlePay() {
     if (confirm(`确认支付 ¥${result.value.price} 解锁完整报告？`)) {
       userStore.markAsPurchased(result.value.quizCode, result.value.id)
       isPaid.value = true
+      // 记录支付统计
+      recordPayment(result.value.price, result.value.quizCode, 'simulated_' + Date.now())
       alert('支付成功！报告已解锁。')
     }
   })
@@ -621,6 +675,33 @@ function handlePay() {
 
   .share-tip {
     font-size: 13px;
+    color: #999;
+  }
+}
+
+.disclaimer-section {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  border-left: 4px solid #ff6b6b;
+
+  .disclaimer-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .disclaimer-content {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 10px;
+  }
+
+  .disclaimer-source {
+    font-size: 12px;
     color: #999;
   }
 }
