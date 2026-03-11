@@ -234,22 +234,26 @@ onMounted(async () => {
     await new Promise(resolve => setTimeout(resolve, 100))
   }
 
-  const id = route.params.id
-  console.log('Result page - id:', id, 'history:', userStore.testHistory)
-  // 从用户历史中查找结果
-  const historyItem = userStore.testHistory.find(r => r.id === id)
+  // 使用setTimeout确保DOM已更新
+  setTimeout(() => {
+    const id = route.params.id
+    console.log('Result page - id:', id, 'history:', userStore.testHistory)
+    // 从用户历史中查找结果
+    const historyItem = userStore.testHistory.find(r => r.id === id)
 
-  if (historyItem) {
-    result.value = historyItem
-    console.log('Result found:', result.value)
-    // 如果测试本身是免费的(paid=0)，直接显示完整内容
-    // 如果测试是付费的(paid=1)，则检查是否已购买
-    isPaid.value = historyItem.paid === 0 || historyItem.isPaid === true
-  } else {
-    console.log('Result not found, redirecting to home')
-    // 结果不存在，返回首页
-    router.push('/')
-  }
+    if (historyItem) {
+      // 使用JSON序列化创建纯对象，确保Vue响应式正常工作
+      result.value = JSON.parse(JSON.stringify(historyItem))
+      console.log('Result found:', result.value)
+      // 如果测试本身是免费的(paid=0)，直接显示完整内容
+      // 如果测试是付费的(paid=1)，则检查是否已购买
+      isPaid.value = historyItem.paid === 0 || historyItem.isPaid === true
+    } else {
+      console.log('Result not found, redirecting to home')
+      // 结果不存在，返回首页
+      router.push('/')
+    }
+  }, 100)
 })
 
 function goHome() {
