@@ -743,8 +743,8 @@ export const quizzes = [
   }
 ]
 
-// API基础URL（使用代理，相对路径）
-const API_BASE = '/api/quiz'
+// API基础URL（支持环境变量配置）
+const API_BASE = import.meta.env.VITE_API_BASE ? `${import.meta.env.VITE_API_BASE}/quiz` : '/api/quiz'
 
 // 从后端API获取数据
 async function fetchFromAPI(endpoint) {
