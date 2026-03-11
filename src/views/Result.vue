@@ -1,5 +1,5 @@
 <template>
-  <div class="result-page">
+  <div class="result-page" v-if="result.resultName">
     <!-- 结果头部 -->
     <div class="result-header gradient-bg">
       <div v-if="result.icon" class="result-icon">{{ result.icon }}</div>
@@ -176,6 +176,7 @@
       </div>
     </div>
   </div>
+  <div v-else class="loading">加载中...</div>
 </template>
 
 <script setup>

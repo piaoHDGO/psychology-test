@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>情商测试报告 - 情商较高</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+
+    /* 结果头部 */
+    .result-header {
+      padding: 60px 20px 50px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%);
+    }
+
+    .result-icon {
+      font-size: 80px;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .result-type {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .result-name {
+      font-size: 28px;
+      margin-top: 10px;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .result-desc {
+      font-size: 16px;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    /* 内容区域 */
+    .result-content { padding: 20px; max-width: 800px; margin: 0 auto; }
+
+    /* 图表区域 */
+    .chart-section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* 情商仪表盘 */
+    .eq-gauge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .gauge-container {
+      position: relative;
+      width: 200px;
+      height: 120px;
+    }
+
+    .gauge-bg {
+      width: 200px;
+      height: 100px;
+      border-radius: 100px 100px 0 0;
+      background: linear-gradient(90deg, #E74C3C, #F1C40F, #2ECC71);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gauge-mask {
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      width: 160px;
+      height: 80px;
+      background: white;
+      border-radius: 80px 80px 0 0;
+    }
+
+    .gauge-needle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      height: 80px;
+      background: #333;
+      transform-origin: bottom center;
+      transform: rotate(45deg);
+      border-radius: 2px;
+      transition: transform 1s ease;
+    }
+
+    .gauge-center {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      background: #333;
+      border-radius: 50%;
+    }
+
+    .gauge-label {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .gauge-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: #E91E63;
+    }
+
+    .gauge-level {
+      font-size: 16px;
+      color: #666;
+    }
+
+    /* 情商维度 */
+    .eq-dimensions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .dimension-card {
+      padding: 16px;
+      border-radius: 12px;
+      background: #f8f9fa;
+    }
+
+    .dimension-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .dimension-icon {
+      font-size: 24px;
+    }
+
+    .dimension-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .dimension-bar {
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .dimension-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #E91E63, #F06292);
+    }
+
+    .dimension-score {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    /* 详细分析 */
+    .result-section { margin-bottom: 20px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .section-icon { font-size: 24px; margin-right: 10px; }
+    .section-title { font-size: 20px; font-weight: 600; color: #333; }
+    .section-body {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .section-body p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 15px;
+      white-space: pre-line;
+    }
+
+    /* 建议列表 */
+    .suggest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .suggest-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .suggest-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #E91E63, #C2185B);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .suggest-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* 分享按钮 */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E91E63, #C2185B);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    /* 底部填充 */
+    .bottom-spacer { height: 80px; }
+  </style>
+</head>
+<body>
+  <!-- 结果头部 -->
+  <div class="result-header">
+    <div class="result-icon">🧡</div>
+    <div class="result-type">EQ 28</div>
+    <div class="result-name">情商较高</div>
+    <div class="result-desc">优秀的情商水平</div>
+  </div>
+
+  <div class="result-content">
+    <!-- 情商仪表盘 -->
+    <div class="chart-section">
+      <h3 class="chart-title">情商评估</h3>
+      <div class="eq-gauge">
+        <div class="gauge-container">
+          <div class="gauge-bg">
+            <div class="gauge-mask"></div>
+          </div>
+          <div class="gauge-needle"></div>
+          <div class="gauge-center"></div>
+        </div>
+      </div>
+      <div class="gauge-label">
+        <div class="gauge-value">28</div>
+        <div class="gauge-level">情商较高 - 优秀</div>
+      </div>
+    </div>
+
+    <!-- 情商维度 -->
+    <div class="chart-section">
+      <h3 class="chart-title">情商维度分析</h3>
+      <div class="eq-dimensions">
+        <div class="dimension-card">
+          <div class="dimension-header">
+            <span class="dimension-icon">😤</span>
+            <span class="dimension-name">情绪管理</span>
+          </div>
+          <div class="dimension-bar"><div class="dimension-fill" style="width: 85%;"></div></div>
+          <div class="dimension-score">85/100</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-header">
+            <span class="dimension-icon">💕</span>
+            <span class="dimension-name">同理心</span>
+          </div>
+          <div class="dimension-bar"><div class="dimension-fill" style="width: 80%;"></div></div>
+          <div class="dimension-score">80/100</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-header">
+            <span class="dimension-icon">🗣️</span>
+            <span class="dimension-name">社交技能</span>
+          </div>
+          <div class="dimension-bar"><div class="dimension-fill" style="width: 78%;"></div></div>
+          <div class="dimension-score">78/100</div>
+        </div>
+        <div class="dimension-card">
+          <div class="dimension-header">
+            <span class="dimension-icon">🧠</span>
+            <span class="dimension-name">自我认知</span>
+          </div>
+          <div class="dimension-bar"><div class="dimension-fill" style="width: 82%;"></div></div>
+          <div class="dimension-score">82/100</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 详细分析 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">📖</span>
+        <span class="section-title">详细分析</span>
+      </div>
+      <div class="section-body">
+        <p>【情商解读】
+恭喜你！你的情商处于较高的水平。你在情绪管理和人际关系方面都表现得相当出色。
+
+【情绪管理】
+你能够很好地识别和管理自己的情绪。即使在压力情况下，也能保持冷静和理性。你有成熟的情绪调节策略，不容易被情绪左右。
+
+【人际关系】
+你善于理解他人的感受和需求，能够建立深厚的人际关系。你是朋友眼中的"知心人"，大家愿意向你倾诉。你在人际交往中游刃有余，能够恰当处理各种复杂的关系。
+
+【自我认知】
+你对自己有清晰的认识，了解自己的情绪模式和行为习惯。你能够客观地评价自己，不断寻求成长和进步。
+
+【未来发展】
+1. 发挥你的情商优势，在团队管理和人际协调方面发挥更大作用
+2. 尝试更具挑战性的领导岗位
+3. 分享你的情商经验，帮助他人提升
+4. 持续学习，保持情商的持续成长
+
+你是高情商人群中的优秀代表，继续发挥你的优势，你会在人生的各个领域都取得成功！</p>
+      </div>
+    </div>
+
+    <!-- 行动建议 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">💡</span>
+        <span class="section-title">行动建议</span>
+      </div>
+      <div class="section-body">
+        <div class="suggest-list">
+          <div class="suggest-item">
+            <span class="suggest-num">1</span>
+            <span class="suggest-text">承担更多团队协调工作，发挥你的情商优势</span>
+          </div>
+          <div class="suggest-item">
+            <span class="suggest-num">2</span>
+            <span class="suggest-text">考虑往管理岗位发展，带领团队取得更大成就</span>
+          </div>
+          <div class="suggest-item">
+            <span class="suggest-num">3</span>
+            <span class="suggest-text">分享你的经验，帮助朋友提升情商</span>
+          </div>
+          <div class="suggest-item">
+            <span class="suggest-num">4</span>
+            <span class="suggest-text">持续学习心理学和管理学知识，保持成长</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="action-bar">
+    <button class="btn btn-secondary">💬 分享好友</button>
+    <button class="btn btn-primary">🔓 解锁完整报告</button>
+  </div>
+</body>
+</html>

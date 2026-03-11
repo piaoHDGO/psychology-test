@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>八字命格分析报告 - 木命人</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+
+    /* 结果头部 */
+    .result-header {
+      padding: 60px 20px 50px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+    }
+
+    .result-icon {
+      font-size: 80px;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .result-type {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .result-name {
+      font-size: 28px;
+      margin-top: 10px;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .result-desc {
+      font-size: 16px;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    /* 内容区域 */
+    .result-content { padding: 20px; max-width: 800px; margin: 0 auto; }
+
+    /* 图表区域 */
+    .chart-section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* 五行图 */
+    .wuxing-chart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .wuxing-main {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #27AE60, #1E8449);
+      color: white;
+      box-shadow: 0 8px 24px rgba(39, 174, 96, 0.3);
+    }
+
+    .wuxing-icon {
+      font-size: 36px;
+    }
+
+    .wuxing-name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .wuxing-bars {
+      flex: 1;
+    }
+
+    .wuxing-bar-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .wuxing-bar-label {
+      width: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .wuxing-bar {
+      flex: 1;
+      height: 14px;
+      background: #f0f0f0;
+      border-radius: 7px;
+      margin: 0 8px;
+      overflow: hidden;
+    }
+
+    .wuxing-bar-fill {
+      height: 100%;
+      border-radius: 7px;
+      transition: width 0.5s ease;
+    }
+
+    /* 命格信息 */
+    .mingge-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .info-card {
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .info-card.element {
+      background: linear-gradient(135deg, #27AE60, #1E8449);
+      color: white;
+    }
+
+    .info-card.lucky {
+      background: linear-gradient(135deg, #3498DB, #2980B9);
+      color: white;
+    }
+
+    .info-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* 喜用神 */
+    .xiyongshen {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 16px;
+      background: linear-gradient(135deg, #27AE6020, #1E844920);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .xiyong-icon {
+      font-size: 36px;
+    }
+
+    .xiyong-content {
+      flex: 1;
+    }
+
+    .xiyong-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 4px;
+    }
+
+    .xiyong-desc {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* 详细分析 */
+    .result-section { margin-bottom: 20px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .section-icon { font-size: 24px; margin-right: 10px; }
+    .section-title { font-size: 20px; font-weight: 600; color: #333; }
+    .section-body {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .section-body p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 15px;
+      white-space: pre-line;
+    }
+
+    /* 分享按钮 */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #27AE60, #1E8449);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    /* 底部填充 */
+    .bottom-spacer { height: 80px; }
+  </style>
+</head>
+<body>
+  <!-- 结果头部 -->
+  <div class="result-header">
+    <div class="result-icon">🌲</div>
+    <div class="result-type">木命</div>
+    <div class="result-name">木命人</div>
+    <div class="result-desc">性格仁慈，具有生发之气</div>
+  </div>
+
+  <div class="result-content">
+    <!-- 五行分析 -->
+    <div class="chart-section">
+      <h3 class="chart-title">五行分析</h3>
+      <div class="wuxing-chart">
+        <div class="wuxing-main">
+          <span class="wuxing-icon">🌲</span>
+          <span class="wuxing-name">木</span>
+        </div>
+        <div class="wuxing-bars">
+          <div class="wuxing-bar-item">
+            <span class="wuxing-bar-label" style="color: #27AE60;">木</span>
+            <div class="wuxing-bar"><div class="wuxing-bar-fill" style="width: 80%; background: linear-gradient(90deg, #27AE60, #58D68D);"></div></div>
+          </div>
+          <div class="wuxing-bar-item">
+            <span class="wuxing-bar-label" style="color: #E74C3C;">火</span>
+            <div class="wuxing-bar"><div class="wuxing-bar-fill" style="width: 45%; background: linear-gradient(90deg, #E74C3C, #EC7063);"></div></div>
+          </div>
+          <div class="wuxing-bar-item">
+            <span class="wuxing-bar-label" style="color: #F1C40F;">土</span>
+            <div class="wuxing-bar"><div class="wuxing-bar-fill" style="width: 55%; background: linear-gradient(90deg, #F1C40F, #F7DC6F);"></div></div>
+          </div>
+          <div class="wuxing-bar-item">
+            <span class="wuxing-bar-label" style="color: #3498DB;">金</span>
+            <div class="wuxing-bar"><div class="wuxing-bar-fill" style="width: 35%; background: linear-gradient(90deg, #3498DB, #5DADE2);"></div></div>
+          </div>
+          <div class="wuxing-bar-item">
+            <span class="wuxing-bar-label" style="color: #3498DB;">水</span>
+            <div class="wuxing-bar"><div class="wuxing-bar-fill" style="width: 60%; background: linear-gradient(90deg, #3498DB, #85C1E9);"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 命格信息 -->
+    <div class="chart-section">
+      <h3 class="chart-title">命格信息</h3>
+      <div class="mingge-info">
+        <div class="info-card element">
+          <div class="info-label">五行属性</div>
+          <div class="info-value">木</div>
+        </div>
+        <div class="info-card lucky">
+          <div class="info-label">喜用神</div>
+          <div class="info-value">水</div>
+        </div>
+      </div>
+      <div class="xiyongshen">
+        <div class="xiyong-icon">💧</div>
+        <div class="xiyong-content">
+          <div class="xiyong-title">喜用神解读</div>
+          <div class="xiyong-desc">命中喜用神为水，建议多接触水性事物，如游泳、靠近水边居住等</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 详细分析 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">📖</span>
+        <span class="section-title">详细分析</span>
+      </div>
+      <div class="section-body">
+        <p>【命格解读】
+木命人天生具有生发之气，性格温和善良，有向上进取的心。
+
+【性格特点】
+• 性格温和，为人谦和，有仁慈之心
+• 有上进心，不甘落后，积极进取
+• 善于思考，有较强的学习能力
+• 为人正直，有正义感
+
+【事业发展】
+你适合从事教育、文化、艺术类行业。2026年木气旺盛，你的事业运势上升，但要注意肝胆健康。
+
+【财运分析】
+今年财运不错，有机会获得额外收入。但木性人理财意识较弱，建议做好财务规划，避免冲动消费。
+
+【健康注意】
+需要特别注意肝胆方面的健康，保持规律作息，避免熬夜。适合进行舒缓的运动，如瑜伽、太极等。
+
+【人际关系】
+木命人人缘较好，容易与人相处。但有时过于追求和谐，可能忽视自己的真实想法。学会表达真实想法，有助于建立更深厚的关系。
+
+【开运建议】
+• 多接触水性事物（游泳、钓鱼、靠近水边）
+• 佩戴黑色或蓝色的饰品
+• 居住环境可摆放水培植物
+• 多听流水的声音有助于开运</p>
+      </div>
+    </div>
+
+    <!-- 历年运势 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">📅</span>
+        <span class="section-title">2026年运势</span>
+      </div>
+      <div class="section-body">
+        <p>【事业运】⭐⭐⭐⭐⭐
+木气旺盛，适合开展新项目或创业。有望获得升职机会，但需注意与同事的关系。
+
+【财运】⭐⭐⭐⭐
+正财稳定，偏财有望。适合进行长期投资，但需谨慎决策。
+
+【感情运】⭐⭐⭐⭐
+单身者有望遇到正缘。有伴侣者关系稳定，可考虑步入婚姻。
+
+【健康运】⭐⭐⭐
+需特别注意肝胆健康，保持规律作息，适当运动。</p>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="action-bar">
+    <button class="btn btn-secondary">💬 分享好友</button>
+    <button class="btn btn-primary">🔓 解锁完整报告</button>
+  </div>
+</body>
+</html>

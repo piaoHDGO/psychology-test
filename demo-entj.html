@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI人格测试报告 - ENTJ 指挥官型人格</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+
+    /* 结果头部 */
+    .result-header {
+      padding: 60px 20px 50px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+    }
+
+    .result-icon {
+      font-size: 80px;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .result-type {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: 6px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .result-name {
+      font-size: 28px;
+      margin-top: 10px;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .result-desc {
+      font-size: 16px;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    /* 内容区域 */
+    .result-content { padding: 20px; max-width: 800px; margin: 0 auto; }
+
+    /* 图表区域 */
+    .mbti-chart { padding: 20px; }
+
+    .personality-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border: 4px solid white;
+      background: #E74C3C;
+    }
+
+    .chart-section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* 雷达图 */
+    .radar-chart { display: flex; justify-content: center; margin-bottom: 20px; }
+    .radar-svg { width: 280px; height: 280px; }
+    .grid-circle { fill: none; stroke: #eee; stroke-width: 1; }
+    .axis-line { stroke: #ddd; stroke-width: 1; }
+    .data-polygon { fill: rgba(231, 76, 60, 0.3); stroke: #E74C3C; stroke-width: 2; }
+    .data-point { fill: #E74C3C; }
+    .axis-label { font-size: 12px; fill: #666; }
+
+    /* 维度条 */
+    .dimension-labels { padding: 0 10px; }
+    .dimension-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .dim-label {
+      font-size: 13px;
+      color: #666;
+      width: 40px;
+      font-weight: 500;
+    }
+    .dim-bar {
+      flex: 1;
+      height: 12px;
+      background: #f0f0f0;
+      border-radius: 6px;
+      margin: 0 10px;
+      overflow: hidden;
+    }
+    .dim-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    /* 认知功能 */
+    .functions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .function-card {
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .function-card.dominant { background: linear-gradient(135deg, #E74C3C, #C0392B); color: white; }
+    .function-card.auxiliary { background: linear-gradient(135deg, #E67E22, #D35400); color: white; }
+    .function-card.tertiary { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; }
+    .function-card.inferior { background: linear-gradient(135deg, #ddd, #eee); color: #666; }
+
+    .func-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 4px;
+    }
+
+    .func-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .func-desc {
+      font-size: 11px;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+
+    /* 详细分析 */
+    .result-section { margin-bottom: 20px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .section-icon { font-size: 24px; margin-right: 10px; }
+    .section-title { font-size: 20px; font-weight: 600; color: #333; }
+    .section-body {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .section-body p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 15px;
+      white-space: pre-line;
+    }
+
+    /* 职业建议 */
+    .careers-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .career-item {
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    /* 分享按钮 */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    /* 底部填充 */
+    .bottom-spacer { height: 80px; }
+  </style>
+</head>
+<body>
+  <!-- 结果头部 -->
+  <div class="result-header">
+    <div class="result-icon">💪</div>
+    <div class="result-type">ENTJ</div>
+    <div class="result-name">指挥官型人格</div>
+    <div class="result-desc">天生的领导者，勇敢果决的战略家</div>
+  </div>
+
+  <div class="result-content">
+    <!-- 图表区域 -->
+    <div class="mbti-chart">
+      <div class="personality-icon">💪</div>
+
+      <!-- 雷达图 -->
+      <div class="chart-section">
+        <h3 class="chart-title">人格维度分析</h3>
+        <div class="radar-chart">
+          <svg viewBox="0 0 300 300" class="radar-svg">
+            <circle cx="150" cy="150" r="100" class="grid-circle" />
+            <circle cx="150" cy="150" r="75" class="grid-circle" />
+            <circle cx="150" cy="150" r="50" class="grid-circle" />
+            <circle cx="150" cy="150" r="25" class="grid-circle" />
+            <line x1="150" y1="50" x2="150" y2="250" class="axis-line" />
+            <line x1="63" y1="100" x2="237" y2="200" class="axis-line" />
+            <line x1="63" y1="200" x2="237" y2="100" class="axis-line" />
+            <!-- 数据多边形 - ENTJ 高E高T高J -->
+            <polygon points="150,0 280,100 263,280 37,280 20,100" class="data-polygon" />
+            <!-- 数据点 -->
+            <circle cx="150" cy="0" r="5" class="data-point" />
+            <circle cx="280" cy="100" r="5" class="data-point" />
+            <circle cx="263" cy="280" r="5" class="data-point" />
+            <circle cx="37" cy="280" r="5" class="data-point" />
+            <circle cx="20" cy="100" r="5" class="data-point" />
+            <text x="150" y="35" class="axis-label">E/I</text>
+            <text x="250" y="100" class="axis-label">S/N</text>
+            <text x="250" y="210" class="axis-label">T/F</text>
+            <text x="50" y="210" class="axis-label">J/P</text>
+          </svg>
+        </div>
+        <div class="dimension-labels">
+          <div class="dimension-item">
+            <span class="dim-label">外向 E</span>
+            <div class="dim-bar"><div class="dim-fill" style="width: 85%; background: linear-gradient(90deg, #E74C3C, #F1948A);"></div></div>
+            <span class="dim-label">内向 I</span>
+          </div>
+          <div class="dimension-item">
+            <span class="dim-label">实感 S</span>
+            <div class="dim-bar"><div class="dim-fill" style="width: 25%; background: linear-gradient(90deg, #C0392B, #E74C3C);"></div></div>
+            <span class="dim-label">直觉 N</span>
+          </div>
+          <div class="dimension-item">
+            <span class="dim-label">思考 T</span>
+            <div class="dim-bar"><div class="dim-fill" style="width: 82%; background: linear-gradient(90deg, #E74C3C, #EC7063);"></div></div>
+            <span class="dim-label">情感 F</span>
+          </div>
+          <div class="dimension-item">
+            <span class="dim-label">判断 J</span>
+            <div class="dim-bar"><div class="dim-fill" style="width: 88%; background: linear-gradient(90deg, #E74C3C, #F5B7B1);"></div></div>
+            <span class="dim-label">知觉 P</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 认知功能 -->
+      <div class="chart-section">
+        <h3 class="chart-title">认知功能分布</h3>
+        <div class="functions-grid">
+          <div class="function-card dominant">
+            <div class="func-label">主导功能</div>
+            <div class="func-name">外向思考 (Te)</div>
+            <div class="func-desc">你最自然使用的功能</div>
+          </div>
+          <div class="function-card auxiliary">
+            <div class="func-label">辅助功能</div>
+            <div class="func-name">内向直觉 (Ni)</div>
+            <div class="func-desc">帮助你实现目标</div>
+          </div>
+          <div class="function-card tertiary">
+            <div class="func-label">第三功能</div>
+            <div class="func-name">外向感觉 (Se)</div>
+            <div class="func-desc">正在发展中</div>
+          </div>
+          <div class="function-card inferior">
+            <div class="func-label">劣势功能</div>
+            <div class="func-name">内向情感 (Fi)</div>
+            <div class="func-desc">需要成长</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 详细分析 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">📖</span>
+        <span class="section-title">详细分析</span>
+      </div>
+      <div class="section-body">
+        <p>你是最少见的女性人格类型之一，但在商业和领导领域非常突出，约占人口的1.8%。
+
+【核心特质】
+你天生具有领导才能，擅长组织和指挥团队。你有强烈的目标导向和执行力，讨厌无效的拖延和借口。你善于看到全局，制定清晰的长期愿景，并激励他人跟随。
+
+【认知功能】
+主导功能：外向思考（Te）—— 你擅长组织、规划和高效执行，注重成果和效率。
+辅助功能：内向直觉（Ni）—— 你能够洞察长远趋势，制定战略规划。
+第三功能：外向感觉（Se）—— 你对当下环境和现实情况保持关注。
+劣势功能：内向情感（Fi）—— 你需要学会理解和尊重他人的情感需求。
+
+【人际关系】
+你说话直接坦率，可能让人感到压力，但你出发点是好的。你欣赏有能力的人，愿意给有才能的人机会和挑战。你需要学会更加耐心和体贴，尤其是对那些需要更多支持的人。
+
+【潜在挑战】
+你的强势风格可能让一些人感到不适。你需要学会倾听他人意见，尊重不同的做事方式。</p>
+      </div>
+    </div>
+
+    <!-- 职业建议 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">💼</span>
+        <span class="section-title">职业建议</span>
+      </div>
+      <div class="section-body">
+        <div class="careers-list">
+          <span class="career-item">企业管理者</span>
+          <span class="career-item">创业者</span>
+          <span class="career-item">律师</span>
+          <span class="career-item">投资人</span>
+          <span class="career-item">高管</span>
+          <span class="career-item">项目经理</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="action-bar">
+    <button class="btn btn-secondary">💬 分享好友</button>
+    <button class="btn btn-primary">🔓 解锁完整报告</button>
+  </div>
+</body>
+</html>

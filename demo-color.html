@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>性格色彩测试报告 - 红色性格</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; }
+
+    /* 结果头部 */
+    .result-header {
+      padding: 60px 20px 50px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+    }
+
+    .result-icon {
+      font-size: 80px;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .result-type {
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .result-name {
+      font-size: 28px;
+      margin-top: 10px;
+      font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .result-desc {
+      font-size: 16px;
+      margin-top: 8px;
+      opacity: 0.9;
+    }
+
+    /* 内容区域 */
+    .result-content { padding: 20px; max-width: 800px; margin: 0 auto; }
+
+    /* 图表区域 */
+    .chart-section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* 色彩分布图 */
+    .color-chart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .color-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border: 4px solid white;
+    }
+
+    .color-circle.red { background: linear-gradient(135deg, #E74C3C, #C0392B); }
+    .color-circle.blue { background: linear-gradient(135deg, #3498DB, #2980B9); }
+    .color-circle.yellow { background: linear-gradient(135deg, #F1C40F, #F39C12); }
+    .color-circle.green { background: linear-gradient(135deg, #2ECC71, #27AE60); }
+
+    .color-bars {
+      flex: 1;
+    }
+
+    .color-bar-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .color-bar-label {
+      width: 40px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .color-bar {
+      flex: 1;
+      height: 16px;
+      background: #f0f0f0;
+      border-radius: 8px;
+      margin: 0 10px;
+      overflow: hidden;
+    }
+
+    .color-bar-fill {
+      height: 100%;
+      border-radius: 8px;
+      transition: width 0.5s ease;
+    }
+
+    .color-bar-value {
+      width: 40px;
+      font-size: 14px;
+      color: #666;
+      text-align: right;
+    }
+
+    /* 优势劣势 */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .trait-card {
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .trait-card.strength {
+      background: linear-gradient(135deg, #2ECC71, #27AE60);
+      color: white;
+    }
+
+    .trait-card.weakness {
+      background: linear-gradient(135deg, #95A5A6, #7F8C8D);
+      color: white;
+    }
+
+    .trait-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .trait-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .trait-tag {
+      background: rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    /* 详细分析 */
+    .result-section { margin-bottom: 20px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .section-icon { font-size: 24px; margin-right: 10px; }
+    .section-title { font-size: 20px; font-weight: 600; color: #333; }
+    .section-body {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .section-body p {
+      line-height: 1.8;
+      color: #555;
+      font-size: 15px;
+      white-space: pre-line;
+    }
+
+    /* 职业建议 */
+    .careers-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .career-item {
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    /* 分享按钮 */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: white;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #E74C3C, #C0392B);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    /* 底部填充 */
+    .bottom-spacer { height: 80px; }
+  </style>
+</head>
+<body>
+  <!-- 结果头部 -->
+  <div class="result-header">
+    <div class="result-icon">🔥</div>
+    <div class="result-type">红色</div>
+    <div class="result-name">红色性格</div>
+    <div class="result-desc">天生的领导者，充满活力和行动力</div>
+  </div>
+
+  <div class="result-content">
+    <!-- 图表区域 -->
+    <div class="chart-section">
+      <h3 class="chart-title">性格色彩分析</h3>
+      <div class="color-chart">
+        <div class="color-circle red">🔥</div>
+        <div class="color-bars">
+          <div class="color-bar-item">
+            <span class="color-bar-label" style="color: #E74C3C;">红色</span>
+            <div class="color-bar"><div class="color-bar-fill" style="width: 75%; background: linear-gradient(90deg, #E74C3C, #F1948A);"></div></div>
+            <span class="color-bar-value">75%</span>
+          </div>
+          <div class="color-bar-item">
+            <span class="color-bar-label" style="color: #3498DB;">蓝色</span>
+            <div class="color-bar"><div class="color-bar-fill" style="width: 35%; background: linear-gradient(90deg, #3498DB, #5DADE2);"></div></div>
+            <span class="color-bar-value">35%</span>
+          </div>
+          <div class="color-bar-item">
+            <span class="color-bar-label" style="color: #F1C40F;">黄色</span>
+            <div class="color-bar"><div class="color-bar-fill" style="width: 60%; background: linear-gradient(90deg, #F1C40F, #F7DC6F);"></div></div>
+            <span class="color-bar-value">60%</span>
+          </div>
+          <div class="color-bar-item">
+            <span class="color-bar-label" style="color: #2ECC71;">绿色</span>
+            <div class="color-bar"><div class="color-bar-fill" style="width: 25%; background: linear-gradient(90deg, #2ECC71, #58D68D);"></div></div>
+            <span class="color-bar-value">25%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 优势劣势 -->
+    <div class="chart-section">
+      <h3 class="chart-title">性格特质</h3>
+      <div class="traits-grid">
+        <div class="trait-card strength">
+          <div class="trait-label">优势</div>
+          <div class="trait-list">
+            <span class="trait-tag">领导力强</span>
+            <span class="trait-tag">决策果断</span>
+            <span class="trait-tag">行动力强</span>
+            <span class="trait-tag">勇于挑战</span>
+            <span class="trait-tag">效率高</span>
+          </div>
+        </div>
+        <div class="trait-card weakness">
+          <div class="trait-label">需要注意</div>
+          <div class="trait-list">
+            <span class="trait-tag">有时急躁</span>
+            <span class="trait-tag">不够耐心</span>
+            <span class="trait-tag">可能过于强势</span>
+            <span class="trait-tag">说话直接</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 详细分析 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">📖</span>
+        <span class="section-title">详细分析</span>
+      </div>
+      <div class="section-body">
+        <p>【性格解读】
+红色性格代表行动力、执行力和领导力。你是那种"想到就去做"的人，不喜欢等待和犹豫。
+
+【核心特质】
+• 决策果断：面对选择时，你能够快速做出决定，不喜欢拖泥带水
+• 目标导向：你以结果为导向，注重效率和成果
+• 勇于挑战：你喜欢有难度的工作，迎接挑战让你兴奋
+• 领导才能：你自然地成为团队中的领导者，带动他人前进
+
+【沟通风格】
+你说话直接明了，不喜欢绕弯子。在你看来，时间是最宝贵的资源，所以沟通时总是直奔主题。你可能会让人觉得有些急躁，但这正是你高效的体现。
+
+【情感世界】
+在感情中，你同样是积极的行动派。喜欢一个人你会主动追求，不会错过机会。你需要的是一个能够跟上你节奏、欣赏你活力的伴侣。
+
+【职场优势】
+你适合需要快速决策和带领团队的工作：企业管理者、创业者、销售、项目经理、指挥官。
+
+【成长建议】
+试着放慢脚步，多倾听他人的意见。学会在行动前思考一下，可能会取得更好的效果。</p>
+      </div>
+    </div>
+
+    <!-- 职业建议 -->
+    <div class="result-section">
+      <div class="section-header">
+        <span class="section-icon">💼</span>
+        <span class="section-title">职业建议</span>
+      </div>
+      <div class="section-body">
+        <div class="careers-list">
+          <span class="career-item">企业管理者</span>
+          <span class="career-item">创业者</span>
+          <span class="career-item">销售经理</span>
+          <span class="career-item">项目经理</span>
+          <span class="career-item">指挥官</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="action-bar">
+    <button class="btn btn-secondary">💬 分享好友</button>
+    <button class="btn btn-primary">🔓 解锁完整报告</button>
+  </div>
+</body>
+</html>
