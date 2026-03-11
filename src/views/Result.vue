@@ -1,5 +1,5 @@
 <template>
-  <div class="result-page" v-if="result.value && result.value.quizCode">
+  <div class="result-page" v-if="isLoaded">
     <!-- 结果头部 -->
     <div class="result-header gradient-bg">
       <div v-if="result.icon" class="result-icon">{{ result.icon }}</div>
@@ -194,6 +194,7 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const result = ref({})
+const isLoaded = ref(false)
 const isPaid = ref(false)
 const isPaying = ref(false)
 const showSharePoster = ref(false)
@@ -254,6 +255,7 @@ onMounted(async () => {
 
     if (historyItem) {
       result.value = historyItem
+      isLoaded.value = true
       console.log('Result found:', result.value)
       isPaid.value = historyItem.paid === 0 || historyItem.isPaid === true
       userStore.saveTestResult(historyItem)
