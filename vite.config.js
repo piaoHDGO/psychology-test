@@ -22,6 +22,6 @@ export default defineConfig({
   preview: {
     port: 3000,
     host: '0.0.0.0',
-    allowedHosts: ['psychology-test-production.up.railway.app']
+    allowedHosts: ['psychology-test-production.up.railway.app', 'mindceshi.cn', 'www.mindceshi.cn']
   }
 })
