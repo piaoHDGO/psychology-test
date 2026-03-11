@@ -234,11 +234,11 @@ onMounted(async () => {
     await new Promise(resolve => setTimeout(resolve, 100))
   }
 
-  // 使用setTimeout确保DOM已更新
-  setTimeout(() => {
+  // 页面加载时获取结果
+  const loadResult = () => {
     const id = route.params.id
 
-    // 直接从localStorage读取，而不是依赖userStore
+    // 直接从localStorage读取
     const stored = localStorage.getItem('testHistory')
     let historyList = []
     if (stored) {
@@ -250,24 +250,21 @@ onMounted(async () => {
     }
 
     console.log('Result page - id:', id, 'history from localStorage:', historyList)
-    // 从用户历史中查找结果
     const historyItem = historyList.find(r => r.id === id)
 
     if (historyItem) {
       result.value = historyItem
       console.log('Result found:', result.value)
-      // 如果测试本身是免费的(paid=0)，直接显示完整内容
-      // 如果测试是付费的(paid=1)，则检查是否已购买
       isPaid.value = historyItem.paid === 0 || historyItem.isPaid === true
-
-      // 同步到userStore
       userStore.saveTestResult(historyItem)
     } else {
       console.log('Result not found, redirecting to home')
-      // 结果不存在，返回首页
       router.push('/')
     }
-  }, 100)
+  }
+
+  // 延迟执行确保DOM已准备好
+  setTimeout(loadResult, 100)
 })
 
 function goHome() {
