@@ -312,10 +312,20 @@ function submitTest() {
   let icon = ''
   let functions = {}
   let chart = {}
-  if (quiz.value.code === 'mbti' && result) {
-    icon = result.icon || ''
-    functions = result.functions || {}
-    chart = result.chart || {}
+  // 重新获取MBTI结果对象
+  if (quiz.value.code === 'mbti') {
+    const mbtiResults = quiz.value.results || {}
+    let mbtiResult = null
+    if (mbtiResults.types) {
+      mbtiResult = mbtiResults.types.find(t => t.name === resultType)
+    } else if (mbtiResults[resultType]) {
+      mbtiResult = mbtiResults[resultType]
+    }
+    if (mbtiResult) {
+      icon = mbtiResult.icon || ''
+      functions = mbtiResult.functions || {}
+      chart = mbtiResult.chart || {}
+    }
   }
 
   // 保存结果
