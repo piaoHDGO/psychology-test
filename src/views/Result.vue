@@ -1,5 +1,5 @@
 <template>
-  <div class="result-page" v-if="result.resultName">
+  <div class="result-page" v-if="result && result.value && (result.value.resultName || result.value.quizCode)">
     <!-- 结果头部 -->
     <div class="result-header gradient-bg">
       <div v-if="result.icon" class="result-icon">{{ result.icon }}</div>
