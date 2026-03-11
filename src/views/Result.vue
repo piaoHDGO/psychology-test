@@ -180,7 +180,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import SharePoster from '@/components/SharePoster.vue'
@@ -267,6 +267,14 @@ onMounted(async () => {
 
   // 延迟执行确保DOM已准备好
   setTimeout(loadResult, 100)
+
+  // 监听路由参数变化，重新加载结果
+  watch(() => route.params.id, (newId) => {
+    if (newId) {
+      isLoaded.value = false
+      setTimeout(loadResult, 100)
+    }
+  })
 })
 
 function goHome() {
