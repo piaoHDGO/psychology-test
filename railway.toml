@@ -1,5 +1,4 @@
 [build]
-builder = "docker"
 dockerfile = "Dockerfile"
 
 [deploy]
