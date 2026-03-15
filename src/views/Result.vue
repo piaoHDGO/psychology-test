@@ -291,6 +291,17 @@
 
     </div>
   </div>
+
+  <!-- 分享海报 -->
+  <SharePoster
+    :visible="showSharePoster"
+    :quiz-name="quiz?.name || ''"
+    :quiz-icon="quiz?.icon || ''"
+    :result-type="result.resultType"
+    :result-name="result.resultName"
+    :result-desc="result.detail?.substring(0, 100) || ''"
+    @close="showSharePoster = false"
+  />
 </template>
 
 <script setup>
@@ -298,6 +309,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Chart, registerables } from 'chart.js'
 import { getQuizByCode } from '@/data/quizzes'
+import SharePoster from '@/components/SharePoster.vue'
 
 Chart.register(...registerables)
 
@@ -322,6 +334,7 @@ const result = ref({
 })
 
 const isLoaded = ref(false)
+const showSharePoster = ref(false)
 
 // Computed properties for different test types
 const resultBadge = computed(() => {
@@ -1246,7 +1259,7 @@ const retest = () => {
 }
 
 const shareResult = () => {
-  alert('生成分享图片')
+  showSharePoster.value = true
 }
 
 onMounted(() => {
