@@ -1,95 +1,281 @@
 // 测试题库数据
-// MBTI、心理年龄、性格色彩
+// MBTI、心理成熟度、性格色彩、EQ情商
 
 export const quizzes = [
+  // ==================== MBTI人格测试 ====================
   {
     code: 'mbti',
     name: 'MBTI人格测试',
-    description: '70题 · 国际权威人格深度测评',
+    description: '28题 · 国际权威人格深度测评',
     price: 19.9,
     icon: '🎯',
     color: '#FFE5E5',
     category: 'psychology',
     status: 1,
     paid: 1,
+    questionCount: 28,
     questions: [
-      // E-I 维度 (20题) - 精力导向
-      { dimension: 'EI', question: '我认为自己是一个善于社交的人', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '在聚会中，我通常是主动与他人交谈的那个人', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我更喜欢与他人一起完成工作，而不是独自一人', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我认为独处是一种享受，而不是孤独', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '我很容易在新环境中认识新朋友', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我更愿意在团队中表达自己的想法', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我倾向于先观察，再决定是否参与社交活动', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '与朋友的深度交流比广泛的社交更让我满足', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '我经常主动联系朋友，而不是等待他们联系我', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我喜欢成为关注的焦点', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '在公众场合发言对我来说很容易', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我更享受少数几个知心朋友而不是很多泛泛之交', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '我更喜欢在开放式的环境中工作', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '与他人交流能给我带来能量', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我更愿意独自思考问题', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '我经常在社交媒体上分享生活', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我认为自己是人群中的领导者', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我更喜欢通过对话而不是写作来表达想法', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
-      { dimension: 'EI', question: '我倾向于等待他人主动接近', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'i', 4: 'i', 1: 'e', 2: 'e' } },
-      { dimension: 'EI', question: '我有很多朋友和熟人', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'e', 4: 'e', 1: 'i', 2: 'i' } },
+      // ==================== E/I 外向/内向（6题）====================
+      {
+        dimension: 'EI',
+        question: '1. 在社交聚会中，你通常会？',
+        options: [
+          { text: 'A. 主动与陌生人交谈', value: 'e' },
+          { text: 'B. 只与熟悉的人交谈', value: 'i' },
+          { text: 'C. 看心情', value: 'e' },
+          { text: 'D. 先观察再决定', value: 'i' },
+          { text: 'E. 尽量避免社交', value: 'i' }
+        ]
+      },
+      {
+        dimension: 'EI',
+        question: '2. 你更喜欢的工作方式是？',
+        options: [
+          { text: 'A. 与团队一起', value: 'e' },
+          { text: 'B. 独自完成', value: 'i' },
+          { text: 'C. 视任务性质', value: 'e' }
+        ]
+      },
+      {
+        dimension: 'EI',
+        question: '3. 你获得能量的方式是？',
+        options: [
+          { text: 'A. 与人相处', value: 'e' },
+          { text: 'B. 独处', value: 'i' },
+          { text: 'C. 两者都有', value: 'e' }
+        ]
+      },
+      {
+        dimension: 'EI',
+        question: '4. 面对新朋友，你会？',
+        options: [
+          { text: 'A. 主动搭话', value: 'e' },
+          { text: 'B. 等待对方先开口', value: 'i' },
+          { text: 'C. 看情况', value: 'e' }
+        ]
+      },
+      {
+        dimension: 'EI',
+        question: '5. 在会议上，你倾向于？',
+        options: [
+          { text: 'A. 积极发言', value: 'e' },
+          { text: 'B. 先听其他人说', value: 'i' },
+          { text: 'C. 看主题', value: 'e' }
+        ]
+      },
+      {
+        dimension: 'EI',
+        question: '6. 你更享受哪种社交？',
+        options: [
+          { text: 'A. 大型聚会', value: 'e' },
+          { text: 'B. 小范围深度交流', value: 'i' },
+          { text: 'C. 独自一人', value: 'i' }
+        ]
+      },
 
-      // S-N 维度 (20题) - 获取信息方式
-      { dimension: 'SN', question: '我更关注现实可行的事情，而不是抽象的理论', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我更相信经验和事实，而不是直觉', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我更喜欢学习实用的技能，而不是理论研究', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我经常想象未来的可能性', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更容易被新奇的创意和想法吸引', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更看重实际成果，而不是过程', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我经常思考抽象的概念和哲理', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更喜欢纪实类书籍，而不是科幻小说', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我相信自己的直觉和第六感', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更关注具体的事实和数据', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我经常思考"如果当初...会怎样"', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更喜欢按部就班的工作方式', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我喜欢探索新的可能性，而不是遵循传统', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更看重问题的解决方案，而不是问题本身', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我对艺术和美学有浓厚的兴趣', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更喜欢有明确说明的操作手册', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我经常想象未来的各种可能性', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更善于记住具体的事件细节', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
-      { dimension: 'SN', question: '我更喜欢创新和打破常规的方法', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'n', 4: 'n', 1: 's', 2: 's' } },
-      { dimension: 'SN', question: '我更关注事物的实际应用价值', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 's', 4: 's', 1: 'n', 2: 'n' } },
+      // ==================== S/N 感觉/直觉（6题）====================
+      {
+        dimension: 'SN',
+        question: '7. 你更关注事物的？',
+        options: [
+          { text: 'A. 具体细节和事实', value: 's' },
+          { text: 'B. 整体抽象和pattern', value: 'n' },
+          { text: 'C. 两者都有', value: 's' }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '8. 你更相信？',
+        options: [
+          { text: 'A. 实际经验和事实', value: 's' },
+          { text: 'B. 直觉和第六感', value: 'n' },
+          { text: 'C. 两者都信', value: 's' }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '9. 学习新事物时，你更喜欢？',
+        options: [
+          { text: 'A. 动手实践', value: 's' },
+          { text: 'B. 理论研究', value: 'n' },
+          { text: 'C. 两者结合', value: 's' }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '10. 描述事情时，你倾向于？',
+        options: [
+          { text: 'A. 讲具体例子', value: 's' },
+          { text: 'B. 抽象概括', value: 'n' },
+          { text: 'C. 看对象', value: 's' }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '11. 你更容易记住的是？',
+        options: [
+          { text: 'A. 见过的事实和数据', value: 's' },
+          { text: 'B. patterns和模式', value: 'n' },
+          { text: 'C. 两者都有', value: 's' }
+        ]
+      },
+      {
+        dimension: 'SN',
+        question: '12. 解决问题时，你更依靠？',
+        options: [
+          { text: 'A. 已有方法', value: 's' },
+          { text: 'B. 创新思路', value: 'n' },
+          { text: 'C. 看情况', value: 's' }
+        ]
+      },
 
-      // T-F 维度 (15题) - 做决定的方式
-      { dimension: 'TF', question: '我做决定时更看重逻辑，而不是感情因素', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我认为公平比和睦更重要', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我更容易被理性论证说服，而不是情感诉求', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我倾向于直接指出别人的错误', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我认为对错分明很重要', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我更注重做正确的事，而不是让人愉快', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我更容易被感人的故事打动', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'f', 4: 'f', 1: 't', 2: 't' } },
-      { dimension: 'TF', question: '我认为应该尊重他人的感受，即使他们错了', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'f', 4: 'f', 1: 't', 2: 't' } },
-      { dimension: 'TF', question: '我更愿意安慰别人，而不是给他们建议', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'f', 4: 'f', 1: 't', 2: 't' } },
-      { dimension: 'TF', question: '我认为规则比人际关系更重要', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我更容易被有逻辑的论点说服', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我认为同情心和同理心是重要的品质', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'f', 4: 'f', 1: 't', 2: 't' } },
-      { dimension: 'TF', question: '我做决定时会考虑他人的感受', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'f', 4: 'f', 1: 't', 2: 't' } },
-      { dimension: 'TF', question: '我认为批评应该是对事不对人', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
-      { dimension: 'TF', question: '我更看重效率和成果，而不是人际关系', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 't', 4: 't', 1: 'f', 2: 'f' } },
+      // ==================== T/F 思考/情感（8题）====================
+      {
+        dimension: 'TF',
+        question: '13. 做决定时，你更看重？',
+        options: [
+          { text: 'A. 逻辑和客观因素', value: 't' },
+          { text: 'B. 个人价值观和感受', value: 'f' },
+          { text: 'C. 视情况', value: 't' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '14. 当别人犯错时，你会？',
+        options: [
+          { text: 'A. 直接指出问题', value: 't' },
+          { text: 'B. 考虑对方感受', value: 'f' },
+          { text: 'C. 看场合', value: 't' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '15. 你更容易被什么打动？',
+        options: [
+          { text: 'A. 理性分析和数据', value: 't' },
+          { text: 'B. 情感诉求和故事', value: 'f' },
+          { text: 'C. 两者都有', value: 't' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '16. 面对冲突，你倾向于？',
+        options: [
+          { text: 'A. 对事不对人', value: 't' },
+          { text: 'B. 考虑关系和感受', value: 'f' },
+          { text: 'C. 尽量回避', value: 'f' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '17. 你认为什么更重要？',
+        options: [
+          { text: 'A. 公平公正', value: 't' },
+          { text: 'B. 慈悲关怀', value: 'f' },
+          { text: 'C. 视情况', value: 't' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '18. 安慰他人时，你会？',
+        options: [
+          { text: 'A. 给建议和解决方案', value: 't' },
+          { text: 'B. 共情和陪伴', value: 'f' },
+          { text: 'C. 视情况', value: 'f' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '19. 购买东西时，你更在意？',
+        options: [
+          { text: 'A. 性价比和功能', value: 't' },
+          { text: 'B. 喜不喜欢', value: 'f' },
+          { text: 'C. 两者都考虑', value: 't' }
+        ]
+      },
+      {
+        dimension: 'TF',
+        question: '20. 别人评价你时会说你？',
+        options: [
+          { text: 'A. 理性客观', value: 't' },
+          { text: 'B. 温暖体贴', value: 'f' },
+          { text: 'C. 两者都有', value: 't' }
+        ]
+      },
 
-      // J-P 维度 (15题) - 应对世界的方式
-      { dimension: 'JP', question: '我更喜欢有计划的生活，而不是随性而为', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我习惯提前完成任务，而不是等到最后', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我喜欢把事情安排得井井有条', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我更喜欢灵活的日程安排，而不是固定的计划', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'p', 4: 'p', 1: 'j', 2: 'j' } },
-      { dimension: 'JP', question: '我会在截止日期前提前完成工作', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我喜欢按照清单来完成任务', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我更喜欢随遇而安，而不是提前规划', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'p', 4: 'p', 1: 'j', 2: 'j' } },
-      { dimension: 'JP', question: '我会在开始工作前先制定详细的计划', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我更喜欢有秩序和结构的工作环境', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我经常等到最后一刻才开始做事', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'p', 4: 'p', 1: 'j', 2: 'j' } },
-      { dimension: 'JP', question: '我更喜欢按部就班的工作节奏', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我喜欢保持桌面整洁有序', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我更愿意接受变化，而不是固守计划', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'p', 4: 'p', 1: 'j', 2: 'j' } },
-      { dimension: 'JP', question: '我会在旅行前做好详细的攻略', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'j', 4: 'j', 1: 'p', 2: 'p' } },
-      { dimension: 'JP', question: '我更喜欢同时处理多个任务', options: [{ text: '完全不同意', value: 1 }, { text: '比较不同意', value: 2 }, { text: '中立', value: 3 }, { text: '比较同意', value: 4 }, { text: '完全同意', value: 5 }], scoring: { 5: 'p', 4: 'p', 1: 'j', 2: 'j' } }
+      // ==================== J/P 判断/知觉（8题）====================
+      {
+        dimension: 'JP',
+        question: '21. 你更喜欢哪种生活方式？',
+        options: [
+          { text: 'A. 有计划有规律', value: 'j' },
+          { text: 'B. 灵活自由', value: 'p' },
+          { text: 'C. 保持平衡', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '22. 你做事情通常是？',
+        options: [
+          { text: 'A. 提前规划', value: 'j' },
+          { text: 'B. 走一步看一步', value: 'p' },
+          { text: 'C. 看任务性质', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '23. 什么更容易让你焦虑？',
+        options: [
+          { text: 'A. 任务完不成', value: 'j' },
+          { text: 'B. 计划被打乱', value: 'j' },
+          { text: 'C. 都不会', value: 'p' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '24. 你更倾向于？',
+        options: [
+          { text: 'A. 快速做决定', value: 'j' },
+          { text: 'B. 保持开放', value: 'p' },
+          { text: 'C. 看是什么事', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '25. 面对截止日期，你会？',
+        options: [
+          { text: 'A. 提前完成', value: 'j' },
+          { text: 'B. 最后一刻', value: 'p' },
+          { text: 'C. 合理安排时间', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '26. 你的房间/工作桌通常是？',
+        options: [
+          { text: 'A. 整洁有序', value: 'j' },
+          { text: 'B. 随意自由', value: 'p' },
+          { text: 'C. 定期整理', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '27. 你对待新机会的态度是？',
+        options: [
+          { text: 'A. 尽快做决定', value: 'j' },
+          { text: 'B. 多观望一阵', value: 'p' },
+          { text: 'C. 看是什么机会', value: 'j' }
+        ]
+      },
+      {
+        dimension: 'JP',
+        question: '28. 你觉得准时是？',
+        options: [
+          { text: 'A. 非常重要的原则', value: 'j' },
+          { text: 'B. 灵活可调整', value: 'p' },
+          { text: 'C. 尽量做到', value: 'j' }
+        ]
+      }
     ],
     results: {
       'INTJ': {
@@ -270,667 +456,774 @@ export const quizzes = [
       }
     }
   },
+
+  // ==================== 心理成熟度测试 ====================
   {
     code: 'age',
-    name: '心理年龄测试',
-    description: '15题 · 探索你内心的成熟度',
+    name: '心理成熟度测试',
+    description: '12题 · 探索你的心理成熟度',
     price: 9.9,
     icon: '🧠',
     color: '#E5F0FF',
     category: 'psychology',
     paid: 0,
     status: 1,
+    questionCount: 12,
     questions: [
-      { question: '面对困难时，你通常会：', options: [{ text: '积极面对，寻找解决方案', age: -2 }, { text: '先抱怨，再想办法', age: 0 }, { text: '逃避或拖延', age: 2 }] },
-      { question: '你对未来的规划是：', options: [{ text: '有详细的长期规划', age: -2 }, { text: '有大概的方向', age: 0 }, { text: '走一步算一步', age: 2 }] },
-      { question: '当别人批评你时，你会：', options: [{ text: '虚心接受并改进', age: -2 }, { text: '会反思但不一定改', age: 0 }, { text: '立即反驳', age: 2 }] },
-      { question: '你对待学习的态度是：', options: [{ text: '活到老学到老', age: -2 }, { text: '需要时才会学', age: 0 }, { text: '学习是学生的事', age: 2 }] },
-      { question: '你的消费观念是：', options: [{ text: '量入为出，有储蓄习惯', age: -2 }, { text: '适当消费，偶尔月光', age: 0 }, { text: '及时行乐，花再说', age: 2 }] },
-      { question: '面对选择时，你会：', options: [{ text: '理性分析利弊', age: -2 }, { text: '凭感觉选择', age: 0 }, { text: '犹豫不决，问很多人', age: 2 }] },
-      { question: '你对自己的评价是：', options: [{ text: '有优点也有不足，持续改进', age: -2 }, { text: '还可以，一般般', age: 0 }, { text: '觉得自己很棒，不需要改', age: 2 }] },
-      { question: '处理人际关系时，你：', options: [{ text: '懂得换位思考', age: -2 }, { text: '有时会考虑对方感受', age: 0 }, { text: '以自己为主', age: 2 }] },
-      { question: '你对责任的态度是：', options: [{ text: '勇于承担，不推卸', age: -2 }, { text: '看情况', age: 0 }, { text: '能推则推', age: 2 }] },
-      { question: '面对失败，你会：', options: [{ text: '总结经验，继续前行', age: -2 }, { text: '会沮丧但会振作', age: 0 }, { text: '一蹶不振', age: 2 }] },
-      { question: '你的时间观念：', options: [{ text: '提前规划，准时守约', age: -2 }, { text: '大致准时，偶尔迟到', age: 0 }, { text: '经常迟到，无所谓', age: 2 }] },
-      { question: '对新事物的态度：', options: [{ text: '充满好奇，愿意尝试', age: -2 }, { text: '看情况选择', age: 0 }, { text: '害怕变化，排斥新事物', age: 2 }] },
-      { question: '你处理情绪的方式：', options: [{ text: '冷静分析，理性处理', age: -2 }, { text: '找朋友倾诉', age: 0 }, { text: '发泄或压抑', age: 2 }] },
-      { question: '你对规则的看法：', options: [{ text: '遵守但不盲从', age: -2 }, { text: '看情况', age: 0 }, { text: '规则是束缚', age: 2 }] },
-      { question: '你目前最关注的是：', options: [{ text: '个人成长和自我实现', age: -2 }, { text: '工作和生活平衡', age: 0 }, { text: '娱乐和享受', age: 2 }] }
-    ],
-    results: {
-      ranges: [
-        { max: -15, name: '18岁以下', desc: '你拥有一颗纯粹的赤子之心', detail: '【心理年龄解读】\n你的心理年龄保持在18岁以下，这意味着你拥有一颗年轻、纯粹的心。\n\n【性格特点】\n• 对世界充满好奇，保持着孩子般的新鲜感\n• 勇于尝试新事物，不害怕失败和挑战\n• 心态开放，容易接受不同的观点和事物\n• 充满活力和热情，生活态度积极向上\n\n【优势分析】\n你的年轻心态是你最大的财富。在当今快速变化的时代，保持学习和成长的心态尤为重要。你勇于冒险的精神会让你在事业上有更多的可能性。\n\n【发展建议】\n保持这份热情的同时，也可以适当学习一些人生经验，培养自己的沉稳和智慧。让年轻的心态成为你前进的动力，而不是冲动的借口。\n\n【适合的成长方向】\n继续学习的热情 + 适当的理性思考 = 最佳的心理状态' },
-        { max: -5, name: '22岁左右', desc: '你正值青春年华，心态阳光积极', detail: '【心理年龄解读】\n你的心理年龄在22岁左右，这是一个充满活力和可能性的年纪。\n\n【性格特点】\n• 保持着青春的激情和对未来的憧憬\n• 敢于梦想，愿意为理想付出努力\n• 既有年轻人的冲劲，又不失理性\n• 对生活充满热情，相信明天会更好\n\n【优势分析】\n你正处于人生最美好的阶段，有足够的精力去追求梦想，又有了一定的成熟度来权衡利弊。你的心态让你在职场和生活中都具有很强的竞争力。\n\n【发展建议】\n这是积累经验和知识的黄金时期。建议你在保持热情的同时，多向有经验的人学习，培养自己的专业能力和人际关系的处理能力。\n\n【适合的成长方向】\n继续追梦的热情 + 脚踏实地的努力 = 成功的人生' },
-        { max: 5, name: '28岁左右', desc: '你成熟稳健，心态恰到好处', detail: '【心理年龄解读】\n你的心理年龄在28岁左右，这是一个成熟与活力并存的黄金年龄。\n\n【性格特点】\n• 具备成熟的思考方式，能够理性分析问题\n• 对未来有明确的规划和目标\n• 懂得平衡理想与现实的关系\n• 处理事情稳重，有分寸感\n\n【优势分析】\n你已经找到了年轻心态和成熟思考的平衡点。你知道什么时候该坚持，什么时候该妥协。你的人生观和价值观已经趋于稳定，能够很好地规划自己的未来。\n\n【发展建议】\n这个阶段是事业的上升期，建议你在稳定中寻求突破，不断提升自己的能力和价值。同时也要注意保持对生活的热情，不要变得过于世故。\n\n【适合的成长方向】\n稳定的理性 + 持续的激情 = 成功的事业' },
-        { max: 15, name: '35岁左右', desc: '你成熟稳重，人生经验丰富', detail: '【心理年龄解读】\n你的心理年龄在35岁左右，这是一个人生经验丰富的阶段。\n\n【性格特点】\n• 思考问题全面，不会冲动行事\n• 懂得权衡利弊，做出理性的决策\n• 有人生阅历，对世事有深刻的理解\n• 稳重可靠，是团队中的定海神针\n\n【优势分析】\n你的人生经验是你的宝贵财富。你能够很好地处理各种复杂的情况，在职场和生活中都能成为他人的依靠。你的成熟和稳重让你在管理岗位上游刃有余。\n\n【发展建议】\n虽然成熟是你的优势，但也要注意不要变得过于保守。在保持稳重的同时，可以适当保持一些年轻的心态，尝试一些新的事物，这样可以让你的人生更加精彩。\n\n【适合的成长方向】\n丰富的经验 + 开放的心态 = 人生的智慧' },
-        { max: 999, name: '45岁及以上', desc: '你智慧从容，心境淡泊明净', detail: '【心理年龄解读】\n你的心理年龄在45岁及以上，这是一个人生智慧达到巅峰的阶段。\n\n【性格特点】\n• 对人生有深刻的洞察和领悟\n• 心态平和，不为得失所扰\n• 懂得放下，看透人生百态\n• 睿智从容，有长者之风\n\n【优势分析】\n你拥有丰富的人生阅历和深刻的智慧。你能够看透事物的本质，不为表面的纷争所困扰。你的成熟和智慧让你成为他人信赖的对象。\n\n【发展建议】\n你的心态已经很成熟，但要注意不要过于消极或遁世。在保持智慧的同时，也可以适当参与年轻人的活动，保持对生活的热情。你的经验和智慧是年轻人的宝贵财富。\n\n【适合的成长方向】\n人生的智慧 + 生命的热情 = 完美的人生' }
-      ]
-    }
-  },
-  {
-    code: 'color',
-    name: '性格色彩测试',
-    description: '40题 · 解读你的性格密码',
-    price: 15.9,
-    icon: '🎨',
-    color: '#FFF4E5',
-    category: 'psychology',
-    paid: 0,
-    status: 1,
-    questions: [
+      // ==================== 情绪稳定性（2题）====================
       {
-        question: '在社交场合，你通常：',
+        dimension: 'emotional',
+        question: '1. 面对重大困难时，你会首先？',
         options: [
-          { text: '成为焦点，活跃气氛', red: 2, yellow: 1 },
-          { text: '安静观察，适度交流', blue: 1, green: 1 }
+          { text: 'A. 冷静分析，寻找方案', value: 4 },
+          { text: 'B. 焦虑但强撑', value: 3 },
+          { text: 'C. 先倾诉再想', value: 2 },
+          { text: 'D. 逃避拖延', value: 1 }
         ]
       },
       {
-        question: '你做决定的方式：',
+        dimension: 'emotional',
+        question: '2. 当计划被打乱时，你会？',
         options: [
-          { text: '快速果断', red: 2 },
-          { text: '深思熟虑', blue: 2 }
+          { text: 'A. 快速调整', value: 4 },
+          { text: 'B. 有点烦躁但接受', value: 3 },
+          { text: 'C. 焦虑不安', value: 2 },
+          { text: 'D. 心态崩溃', value: 1 }
+        ]
+      },
+
+      // ==================== 责任意识（2题）====================
+      {
+        dimension: 'responsibility',
+        question: '3. 你对人生的规划是？',
+        options: [
+          { text: 'A. 有清晰长期目标+短期计划', value: 4 },
+          { text: 'B. 有大方向灵活调整', value: 3 },
+          { text: 'C. 走一步算一步', value: 2 },
+          { text: 'D. 从不规划', value: 1 }
         ]
       },
       {
-        question: '你更看重：',
+        dimension: 'responsibility',
+        question: '4. 承诺遇到困难时，你会？',
         options: [
-          { text: '行动和结果', red: 1, yellow: 1 },
-          { text: '关系和感受', blue: 1, green: 1 }
+          { text: 'A. 无论如何完成', value: 4 },
+          { text: 'B. 努力但可能延期', value: 3 },
+          { text: 'C. 找理由解释', value: 2 },
+          { text: 'D. 直接放弃', value: 1 }
+        ]
+      },
+
+      // ==================== 抗压能力（2题）====================
+      {
+        dimension: 'stress',
+        question: '5. 面对严厉批评，你会？',
+        options: [
+          { text: 'A. 虚心接受改进', value: 4 },
+          { text: 'B. 不服但事后反思', value: 3 },
+          { text: 'C. 感到沮丧', value: 2 },
+          { text: 'D. 立即反驳逃避', value: 1 }
         ]
       },
       {
-        question: '面对压力时，你：',
+        dimension: 'stress',
+        question: '6. 面对重大选择，你会？',
         options: [
-          { text: '迎难而上', red: 2 },
-          { text: '冷静分析', blue: 2 }
+          { text: 'A. 深思熟虑果断决定', value: 4 },
+          { text: 'B. 犹豫但能决定', value: 3 },
+          { text: 'C. 反复纠结无法决定', value: 2 },
+          { text: 'D. 逃避不做选择', value: 1 }
+        ]
+      },
+
+      // ==================== 成长心态（2题）====================
+      {
+        dimension: 'growth',
+        question: '7. 对待学习的态度是？',
+        options: [
+          { text: 'A. 活到老学到老', value: 4 },
+          { text: 'B. 需要时会学', value: 3 },
+          { text: 'C. 只学必须的', value: 2 },
+          { text: 'D. 很少学习', value: 1 }
         ]
       },
       {
-        question: '你更喜欢的工作环境：',
+        dimension: 'growth',
+        question: '8. 当你犯错时，你会？',
         options: [
-          { text: '快节奏、有挑战', red: 1, yellow: 1 },
-          { text: '稳定、和谐', blue: 1, green: 1 }
+          { text: 'A. 主动承认总结教训', value: 4 },
+          { text: 'B. 嘴硬但反思', value: 3 },
+          { text: 'C. 找借口推卸', value: 2 },
+          { text: 'D. 否认逃避', value: 1 }
+        ]
+      },
+
+      // ==================== 人际关系（2题）====================
+      {
+        dimension: 'relationship',
+        question: '9. 与朋友矛盾时，你会？',
+        options: [
+          { text: 'A. 主动沟通解决', value: 4 },
+          { text: 'B. 等对方主动', value: 3 },
+          { text: 'C. 冷战', value: 2 },
+          { text: 'D. 断绝关系', value: 1 }
         ]
       },
       {
-        question: '当你不同意他人时，你会：',
+        dimension: 'relationship',
+        question: '10. 不喜欢的社交活动，你会？',
         options: [
-          { text: '直接表达', red: 1 },
-          { text: '委婉表达或沉默', blue: 1, green: 1 }
+          { text: 'A. 偶尔参加丰富经历', value: 4 },
+          { text: 'B. 勉强参加', value: 3 },
+          { text: 'C. 直接拒绝', value: 2 },
+          { text: 'D. 绝对不去', value: 1 }
+        ]
+      },
+
+      // ==================== 财务成熟度（2题）====================
+      {
+        dimension: 'finance',
+        question: '11. 对消费的态度是？',
+        options: [
+          { text: 'A. 有预算计划消费', value: 4 },
+          { text: 'B. 大件计划小件随意', value: 3 },
+          { text: 'C. 冲动消费后悔', value: 2 },
+          { text: 'D. 没钱也要买', value: 1 }
         ]
       },
       {
-        question: '你更容易被什么打动：',
+        dimension: 'finance',
+        question: '12. 你会为未来储蓄吗？',
         options: [
-          { text: '数据和事实', blue: 1, red: 1 },
-          { text: '情感和故事', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你的沟通风格：',
-        options: [
-          { text: '直接明了', red: 2 },
-          { text: '温和含蓄', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你如何处理冲突：',
-        options: [
-          { text: '正面交锋', red: 2 },
-          { text: '回避或调和', green: 2 }
-        ]
-      },
-      {
-        question: '你更关注：',
-        options: [
-          { text: '未来和可能性', yellow: 2, red: 1 },
-          { text: '现在和事实', blue: 2, green: 1 }
-        ]
-      },
-      {
-        question: '当你犯错时，你会：',
-        options: [
-          { text: '立即承认并改正', red: 1, yellow: 1 },
-          { text: '反思但不一定承认', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更容易信任什么样的人：',
-        options: [
-          { text: '有能力的人', red: 1, blue: 1 },
-          { text: '真诚善良的人', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你的时间观念：',
-        options: [
-          { text: '守时，重视效率', red: 1, blue: 1 },
-          { text: '随性，不赶时间', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '当你成功时，你希望：',
-        options: [
-          { text: '被大家认可和赞美', yellow: 2, red: 1 },
-          { text: '自己知道就好', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更喜欢：',
-        options: [
-          { text: '制定计划并执行', blue: 2, red: 1 },
-          { text: '灵活应变', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '面对新朋友，你会：',
-        options: [
-          { text: '主动搭话', yellow: 2, red: 1 },
-          { text: '等对方主动', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更喜欢的生活方式：',
-        options: [
-          { text: '充满变化和刺激', red: 1, yellow: 2 },
-          { text: '平稳安定', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '当你需要安慰时，你希望：',
-        options: [
-          { text: '帮你分析问题', blue: 1, red: 1 },
-          { text: '陪伴和倾听', yellow: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你更在意：',
-        options: [
-          { text: '个人成就', red: 2, blue: 1 },
-          { text: '人际关系', yellow: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你的决策风格：',
-        options: [
-          { text: '果断快速', red: 2 },
-          { text: '谨慎周全', blue: 2 }
-        ]
-      },
-      {
-        question: '你更喜欢哪种领导方式：',
-        options: [
-          { text: '有魄力、敢决策', red: 1, yellow: 1 },
-          { text: '民主、关心下属', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '面对失败，你的反应：',
-        options: [
-          { text: '总结教训，继续战斗', red: 2, blue: 1 },
-          { text: '会难过但会调整', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更容易欣赏：',
-        options: [
-          { text: '有才华有能力的人', red: 1, blue: 2 },
-          { text: '真诚善良的人', yellow: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你在团队中的角色：',
-        options: [
-          { text: '领导者和推动者', red: 2, yellow: 1 },
-          { text: '协调者和支持者', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你更喜欢的工作内容：',
-        options: [
-          { text: '有挑战性的任务', red: 2, yellow: 1 },
-          { text: '需要细心的工作', blue: 2, green: 1 }
-        ]
-      },
-      {
-        question: '当你生气时，你会：',
-        options: [
-          { text: '直接表现出来', red: 2 },
-          { text: '尽量压抑', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更看重工作的：',
-        options: [
-          { text: '发展空间和收入', red: 1, yellow: 1 },
-          { text: '稳定和环境', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你处理问题的方式：',
-        options: [
-          { text: '快速行动，先做再说', red: 2, yellow: 1 },
-          { text: '先分析，再行动', blue: 2, green: 1 }
-        ]
-      },
-      {
-        question: '你更喜欢的生活哲学：',
-        options: [
-          { text: '人生在于拼搏', red: 2, yellow: 1 },
-          { text: '平淡才是真', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '当你得到好消息时，你会：',
-        options: [
-          { text: '第一时间分享', yellow: 2, red: 1 },
-          { text: '自己先高兴一下', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更容易因为什么感动：',
-        options: [
-          { text: '壮举和成就', red: 1, blue: 1 },
-          { text: '温暖和真情', yellow: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你的学习方式是：',
-        options: [
-          { text: '边做边学', red: 1, yellow: 1 },
-          { text: '系统学习', blue: 2, green: 1 }
-        ]
-      },
-      {
-        question: '你更喜欢结交：',
-        options: [
-          { text: '很多朋友', yellow: 2, red: 1 },
-          { text: '知心朋友', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '面对规则，你的态度：',
-        options: [
-          { text: '遵守但会质疑', red: 1, yellow: 1 },
-          { text: '遵守并执行', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更喜欢：',
-        options: [
-          { text: '冒险和刺激', red: 2, yellow: 1 },
-          { text: '安全和稳定', blue: 2, green: 1 }
-        ]
-      },
-      {
-        question: '当你需要帮助时，你会：',
-        options: [
-          { text: '直接开口请求', red: 1, yellow: 1 },
-          { text: '自己想办法', blue: 1, green: 2 }
-        ]
-      },
-      {
-        question: '你的表达方式：',
-        options: [
-          { text: '直接表达想法', red: 2 },
-          { text: '考虑对方感受', blue: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更在意别人的：',
-        options: [
-          { text: '评价和能力', red: 1, blue: 1 },
-          { text: '态度和关系', yellow: 1, green: 2 }
-        ]
-      },
-      {
-        question: '当你做计划时，你会：',
-        options: [
-          { text: '制定详细计划', blue: 2, red: 1 },
-          { text: '大致有个方向', yellow: 1, green: 1 }
-        ]
-      },
-      {
-        question: '你更容易被说服的方式：',
-        options: [
-          { text: '有力的逻辑和数据', blue: 2, red: 1 },
-          { text: '真诚的情感表达', yellow: 1, green: 2 }
+          { text: 'A. 每月固定储蓄+理财', value: 4 },
+          { text: 'B. 有余钱时存一些', value: 3 },
+          { text: 'C. 断续续', value: 2 },
+          { text: 'D. 几乎没有储蓄', value: 1 }
         ]
       }
     ],
     results: {
-      types: [
-        { color: 'red', name: '红色性格', symbol: '🔥', desc: '你是天生的领导者，充满活力和行动力', detail: '【性格解读】\n红色性格代表行动力、执行力和领导力。你是那种"想到就去做"的人，不喜欢等待和犹豫。\n\n【核心特质】\n• 决策果断：面对选择时，你能够快速做出决定，不喜欢拖泥带水\n• 目标导向：你以结果为导向，注重效率和成果\n• 勇于挑战：你喜欢有难度的工作，迎接挑战让你兴奋\n• 领导才能：你自然地成为团队中的领导者，带动他人前进\n\n【沟通风格】\n你说话直接明了，不喜欢绕弯子。在你看来，时间是最宝贵的资源，所以沟通时总是直奔主题。你可能会让人觉得有些急躁，但这正是你高效的体现。\n\n【情感世界】\n在感情中，你同样是积极的行动派。喜欢一个人你会主动追求，不会错过机会。你需要的是一个能够跟上你节奏、欣赏你活力的伴侣。\n\n【职场优势】\n你适合需要快速决策和带领团队的工作：企业管理者、创业者、销售、项目经理、指挥官。\n\n【成长建议】\n试着放慢脚步，多倾听他人的意见。学会在行动前思考一下，可能会取得更好的效果。', strengths: ['领导力强', '决策果断', '行动力强', '勇于挑战', '效率高'], weaknesses: ['有时急躁', '不够耐心', '可能过于强势', '说话直接'] },
-        { color: 'blue', name: '蓝色性格', symbol: '💙', desc: '你是深思熟虑的理性者，追求完美', detail: '【性格解读】\n蓝色性格代表理性、思考和分析。你是那种"三思而后行"的人，重视质量和深度。\n\n【核心特质】\n• 思维缜密：你善于分析问题，考虑周全，不会冲动行事\n• 注重细节：你对质量和精度有很高的要求，追求完美\n• 有计划性：你喜欢提前规划，把事情安排得井井有条\n• 善于思考：你享受独立思考的过程，喜欢探索问题的本质\n\n【沟通风格】\n你说话有条理，喜欢用数据和事实支撑观点。在讨论中，你会仔细分析每一个观点的优缺点。你可能会让人觉得过于挑剔，但这正是你追求完美的体现。\n\n【情感世界】\n在感情中，你比较含蓄，不太擅长表达感情。你需要一个能够理解你内心世界、给你足够思考空间的伴侣。你表达爱意的方式可能是默默付出和细心照顾。\n\n【职场优势】\n你适合需要深度分析和精细执行的工作：科学家、研究员、工程师、财务、分析师、策划。\n\n【成长建议】\n试着接受"不完美"也是美的一种。过度思考可能会让你错失机会，有时候跟随直觉也不错。', strengths: ['思维缜密', '注重细节', '有责任感', '善于分析', '计划性强'], weaknesses: ['有时挑剔', '过度思考', '情感表达不足', '要求过高'] },
-        { color: 'yellow', name: '黄色性格', symbol: '💛', desc: '你是充满热情的社交达人，生活因你而精彩', detail: '【性格解读】\n黄色性格代表热情、创意和社交。你是那种"到哪里都是焦点"的人，能够带给周围人快乐和能量。\n\n【核心特质】\n• 乐观积极：你总是看到事物积极的一面，很少被负面情绪困扰\n• 善于社交：你喜欢与人交往，能够轻松与陌生人建立联系\n• 富有创意：你思维活跃，总能想出新奇的想法和点子\n• 激励他人：你有一种天然的感染力，能够带动周围人的情绪\n\n【沟通风格】\n你说话生动有趣，喜欢用故事和例子来表达观点。你的沟通风格充满活力，能够吸引他人的注意力。你可能会让人觉得有些话痨，但这正是你热情的体现。\n\n【情感世界】\n在感情中，你需要浪漫和惊喜。你需要一个能够欣赏你的热情、给你自由空间的伴侣。你表达爱意的方式可能是精心策划的约会和甜蜜的情话。\n\n【职场优势】\n你适合需要创意和社交能力的工作：营销、公关、广告、演艺、教师、培训师。\n\n【成长建议】\n试着更加专注，把创意的火花转化为实际的成果。学会倾听，不要总是主导对话。', strengths: ['乐观积极', '善于交际', '有创意', '激励他人', '充满活力'], weaknesses: ['有时冲动', '不够专注', '可能过于情绪化', '话较多'] },
-        { color: 'green', name: '绿色性格', symbol: '💚', desc: '你是温和包容的和平使者，人际关系的润滑剂', detail: '【性格解读】\n绿色性格代表温和、包容和和谐。你是那种"与世无争"的人，总是给人带来舒适和安心的感觉。\n\n【核心特质】\n• 性格温和：你脾气很好，很少与人发生冲突\n• 善于倾听：你愿意倾听他人的故事和烦恼，给人安全感\n• 同理心强：你能够设身处地为他人着想，理解他人的感受\n• 适应力强：你能够很好地适应不同的环境和人际关系\n\n【沟通风格】\n你说话温和，不喜欢与人争论。在交流中，你更愿意做一个倾听者，给人舒适的感觉。你可能会让人觉得没有主见，但这正是你包容的体现。\n\n【情感世界】\n在感情中，你是温柔的伴侣和坚实的后盾。你需要一个能够给你安全感、尊重你空间的伴侣。你表达爱意的方式可能是无微不至的照顾和陪伴。\n\n【职场优势】\n你适合需要人际协调和支持的工作：HR、心理咨询师、护士、教师、服务行业、协调专员。\n\n【成长建议】\n学会表达自己的想法和需求，不要总是迁就他人。适当的时候要学会说"不"。', strengths: ['性格温和', '善于倾听', '有耐心', '善于协调', '包容心强'], weaknesses: ['不够果断', '避免冲突', '可能过于迁就', '缺乏主见'] }
-      ]
+      high: {
+        name: '高心理成熟度',
+        icon: '🌟',
+        color: '#4CAF50',
+        description: '你展现出较高的心理成熟度',
+        detail: '你在各个维度都表现出较高的成熟度水平。\n\n【情绪稳定】\n你能较好地控制情绪，面对压力时能保持冷静，并寻找解决方案。\n\n【责任意识】\n你对自己的承诺负责，会努力完成既定的目标和任务。\n\n【抗压能力】\n面对批评和挫折，你能够理性看待，并从中学习和成长。\n\n【成长心态】\n你保持着积极的学习态度，不断提升自己。\n\n【人际关系】\n你能较好地处理人际关系，懂得沟通和理解他人。\n\n【财务成熟】\n你有良好的理财观念，能够合理规划收支。\n\n【建议】\n继续保持这种成熟的态度，你可以在更复杂的挑战中发挥优势。'
+      },
+      medium: {
+        name: '中等心理成熟度',
+        icon: '🌿',
+        color: '#FF9800',
+        description: '你的心理成熟度处于中等水平',
+        detail: '你在某些方面表现出成熟的态度，但在某些领域还有提升空间。\n\n【情绪稳定】\n你有时能较好地控制情绪，但面对重大压力时可能需要学习更好的调节方法。\n\n【责任意识】\n你有一定的规划意识，但可能需要更明确的目标设定。\n\n【抗压能力】\n面对批评时，你可能需要更积极地看待反馈。\n\n【成长心态】\n你愿意学习，但可能需要更主动地寻求成长机会。\n\n【人际关系】\n你能处理基本的人际关系，但在深度沟通方面可以进一步提升。\n\n【财务成熟】\n你有基本的理财意识，但可以建立更系统的储蓄和投资习惯。\n\n【建议】\n关注自己的薄弱环节，有意识地培养更好的习惯和心态。'
+      },
+      low: {
+        name: '偏低心理成熟度',
+        icon: '🌱',
+        color: '#FF5722',
+        description: '你的心理成熟度有较大提升空间',
+        detail: '你可能在多个方面还需要进一步发展。\n\n【情绪稳定】\n你可能更容易受到情绪影响，面对困难时可能倾向于逃避或拖延。\n\n【责任意识】\n你可能更倾向于随遇而安，缺乏长期规划意识。\n\n【抗压能力】\n面对批评或压力时，你可能需要学习更积极的应对方式。\n\n【成长心态】\n你可能更满足于现状，缺乏主动学习的动力。\n\n【人际关系】\n你可能更习惯于等待他人主动，或者在冲突中选择回避。\n\n【财务成熟】\n你可能没有很好的储蓄习惯，消费时可能比较随意。\n\n【建议】\n从小的改变开始，逐步培养更成熟的心态和行为习惯。'
+      },
+      needImprovement: {
+        name: '需提升心理成熟度',
+        icon: '💪',
+        color: '#F44336',
+        description: '建议关注个人成长',
+        detail: '你目前展现出需要提升的心理成熟度水平。这不是批评，而是提醒你关注个人成长。\n\n【情绪稳定】\n建议学习情绪管理技巧，如深呼吸、情绪日记等方法。\n\n【责任意识】\n建议从小目标开始，培养规划和执行的习惯。\n\n【抗压能力】\n建议学会正视批评，将其视为成长的机会而非打击。\n\n【成长心态】\n建议培养终身学习的意识，每天进步一点点。\n\n【人际关系】\n建议主动迈出沟通的第一步，学会表达自己的想法。\n\n【财务成熟】\n建议开始记录支出，建立基本的储蓄习惯。\n\n【建议】\n记住，成熟是一个过程而不是结果。重要的是开始改变，每天都比昨天进步一点。'
+      }
     }
   },
-  // 星座运势测试
+
+  // ==================== 性格色彩测试 ====================
   {
-    code: 'star',
-    name: '星座运势测试',
-    description: '12题 · 探索你的星空密码',
-    price: 19.9,
-    icon: '⭐',
-    color: '#F0E5FF',
-    paid: 1,
-    category: 'fengshui',
-    status: 1,
-    questions: [
-      { question: '你的出生月份是？', options: [{ text: '1-2月（冬季）', star: 1 }, { text: '3-4月（春季）', star: 2 }, { text: '5-6月（夏季）', star: 3 }, { text: '7-8月（夏季）', star: 4 }] },
-      { question: '你更喜欢哪种生活方式？', options: [{ text: '规律稳定', star: 1 }, { text: '自由随性', star: 2 }, { text: '充满变化', star: 3 }, { text: '按部就班', star: 4 }] },
-      { question: '面对压力时，你会？', options: [{ text: '冷静应对', star: 1 }, { text: '寻求帮助', star: 2 }, { text: '独自承受', star: 3 }, { text: '逃避现实', star: 4 }] },
-      { question: '你更看重什么？', options: [{ text: '事业成就', star: 1 }, { text: '感情生活', star: 2 }, { text: '精神追求', star: 3 }, { text: '家庭和谐', star: 4 }] },
-      { question: '你的社交风格是？', options: [{ text: '主动外向', star: 1 }, { text: '被动害羞', star: 2 }, { text: '看场合', star: 3 }, { text: '选择性社交', star: 4 }] },
-      { question: '你更关注？', options: [{ text: '过去经验', star: 1 }, { text: '当下感受', star: 2 }, { text: '未来可能', star: 3 }, { text: '现实利益', star: 4 }] },
-      { question: '做决定时，你更依赖？', options: [{ text: '理性分析', star: 1 }, { text: '直觉感觉', star: 2 }, { text: '他人建议', star: 3 }, { text: '随机应变', star: 4 }] },
-      { question: '你最喜欢什么季节？', options: [{ text: '春天', star: 1 }, { text: '夏天', star: 2 }, { text: '秋天', star: 3 }, { text: '冬天', star: 4 }] },
-      { question: '你的工作风格是？', options: [{ text: ' leader型', star: 1 }, { text: '团队型', star: 2 }, { text: '独立型', star: 3 }, { text: '稳定型', star: 4 }] },
-      { question: '你更容易被什么吸引？', options: [{ text: '外表和能力', star: 1 }, { text: '内在和气质', star: 2 }, { text: '才华和智慧', star: 3 }, { text: '真诚和善良', star: 4 }] },
-      { question: '你对待感情的态度？', options: [{ text: '主动追求', star: 1 }, { text: '顺其自然', star: 2 }, { text: '谨慎保守', star: 3 }, { text: '热烈奔放', star: 4 }] },
-      { question: '你的消费观念是？', options: [{ text: '节俭储蓄', star: 1 }, { text: '适度消费', star: 2 }, { text: '月光族', star: 3 }, { text: '投资理财', star: 4 }] }
-    ],
-    results: {
-      types: [
-        { star: 1, name: '摩羯座/水瓶座', symbol: '♑♒', element: '土/风', desc: '你是务实理性的星座人。', detail: '你性格稳重，追求实际成果。有较强的独立思考能力，不轻易受人影响。事业心强，喜欢按计划行事。2026年对你来说是积累与突破的一年，建议把握机会，勇于尝试新事物。' },
-        { star: 2, name: '白羊座/狮子座', symbol: '♈♌', element: '火', desc: '你是热情奔放的星座人。', detail: '你充满活力和热情，喜欢成为焦点。行动力强，敢于尝试新事物。有领导才能，不喜欢被束缚。2026年你的运势上升，适合开展新项目，但要注意控制情绪，三思而后行。' },
-        { star: 3, name: '金牛座/处女座', symbol: '♉♍', element: '土', desc: '你是踏实稳重的星座人。', detail: '你注重实际，善于理财。有追求完美的倾向，做事认真负责。2026年财运不错，但要注意身体健康，适当放松。建议多学习新技能，提升竞争力。' },
-        { star: 4, name: '双子座/天秤座/射手座', symbol: '♊♎♃', element: '风/火', desc: '你是自由多变的星座人。', detail: '你思维活跃，善于沟通。喜欢新鲜事物，不甘于平庸。2026年人际关系运势上升，适合拓展人脉。但要避免三分钟热度，坚持才能成功。' }
-      ]
-    }
-  },
-  // 八字命格测试
-  {
-    code: 'bazi',
-    name: '八字命格分析',
-    description: '输入出生信息 · 解读先天命格',
-    price: 49.9,
-    icon: '🔮',
+    code: 'color',
+    name: '性格色彩测试',
+    description: '20题 · 深入解读性格色彩密码',
+    price: 9.9,
+    icon: '🎨',
     color: '#E5FFE5',
+    category: 'psychology',
     paid: 1,
-    category: 'fengshui',
     status: 1,
+    questionCount: 20,
     questions: [
-      { question: '你的出生年份（公历）：', options: [{ text: '1990-1999年', bazi: 1 }, { text: '2000-2009年', bazi: 2 }, { text: '1980-1989年', bazi: 3 }, { text: '其他年份', bazi: 4 }] },
-      { question: '你的出生季节：', options: [{ text: '春季（3-5月）', bazi: 1 }, { text: '夏季（6-8月）', bazi: 2 }, { text: '秋季（9-11月）', bazi: 3 }, { text: '冬季（12-2月）', bazi: 4 }] },
-      { question: '你出生的时间段：', options: [{ text: '早上（5-11点）', bazi: 1 }, { text: '中午（11-13点）', bazi: 2 }, { text: '下午（13-17点）', bazi: 3 }, { text: '晚上（17-5点）', bazi: 4 }] },
-      { question: '你的性格更倾向于：', options: [{ text: '内向稳重', bazi: 1 }, { text: '外向活泼', bazi: 2 }, { text: '理性独立', bazi: 3 }, { text: '感性浪漫', bazi: 4 }] },
-      { question: '你做事的态度：', options: [{ text: '稳健谨慎', bazi: 1 }, { text: '积极进取', bazi: 2 }, { text: '灵活变通', bazi: 3 }, { text: '按部就班', bazi: 4 }] },
-      { question: '你更看重：', options: [{ text: '事业成就', bazi: 1 }, { text: '感情生活', bazi: 2 }, { text: '家庭和睦', bazi: 3 }, { text: '身心健康', bazi: 4 }] },
-      { question: '你的社交方式：', options: [{ text: '广泛社交', bazi: 1 }, { text: '选择性社交', bazi: 2 }, { text: '被动等待', bazi: 3 }, { text: '独处思考', bazi: 4 }] },
-      { question: '面对困难时：', options: [{ text: '迎难而上', bazi: 1 }, { text: '求助他人', bazi: 2 }, { text: '暂时回避', bazi: 3 }, { text: '分析解决', bazi: 4 }] }
+      // ==================== 红色 - 行动力（5题）====================
+      {
+        dimension: 'red',
+        question: '1. 面对新任务时，你通常会？',
+        options: [
+          { text: 'A. 立即行动边做边想', value: 4 },
+          { text: 'B. 先思考再行动', value: 3 },
+          { text: 'C. 看情况', value: 2 },
+          { text: 'D. 能拖就拖', value: 1 },
+          { text: 'E. 绝对不做', value: 0 }
+        ]
+      },
+      {
+        dimension: 'red',
+        question: '2. 你做决定的风格是？',
+        options: [
+          { text: 'A. 快速果断不犹豫', value: 4 },
+          { text: 'B. 比较快但想一下', value: 3 },
+          { text: 'C. 深思熟虑', value: 2 },
+          { text: 'D. 犹豫不决', value: 1 },
+          { text: 'E. 永远不做决定', value: 0 }
+        ]
+      },
+      {
+        dimension: 'red',
+        question: '3. 你对目标的看法是？',
+        options: [
+          { text: 'A. 必须达成全力以赴', value: 4 },
+          { text: 'B. 尽量达成', value: 3 },
+          { text: 'C. 有目标就好', value: 2 },
+          { text: 'D. 无所谓', value: 1 },
+          { text: 'E. 讨厌目标', value: 0 }
+        ]
+      },
+      {
+        dimension: 'red',
+        question: '4. 当别人拖延时，你会？',
+        options: [
+          { text: 'A. 催促或自己做', value: 4 },
+          { text: 'B. 提醒几次', value: 3 },
+          { text: 'C. 耐心等待', value: 2 },
+          { text: 'D. 无所谓', value: 1 },
+          { text: 'E. 跟着一起拖', value: 0 }
+        ]
+      },
+      {
+        dimension: 'red',
+        question: '5. 你喜欢的工作方式是？',
+        options: [
+          { text: 'A. 快节奏多任务', value: 4 },
+          { text: 'B. 比较快', value: 3 },
+          { text: 'C. 稳定节奏', value: 2 },
+          { text: 'D. 慢节奏', value: 1 },
+          { text: 'E. 没有偏好', value: 0 }
+        ]
+      },
+
+      // ==================== 蓝色 - 思考力（5题）====================
+      {
+        dimension: 'blue',
+        question: '6. 你解决问题的方式是？',
+        options: [
+          { text: 'A. 分析根源系统解决', value: 4 },
+          { text: 'B. 会分析但不系统', value: 3 },
+          { text: 'C. 凭感觉解决', value: 2 },
+          { text: 'D. 不想解决', value: 1 },
+          { text: 'E. 逃避问题', value: 0 }
+        ]
+      },
+      {
+        dimension: 'blue',
+        question: '7. 你对细节的看法是？',
+        options: [
+          { text: 'A. 非常重要追求完美', value: 4 },
+          { text: 'B. 比较在意', value: 3 },
+          { text: 'C. 过得去就行', value: 2 },
+          { text: 'D. 不在乎', value: 1 },
+          { text: 'E. 完全不在意', value: 0 }
+        ]
+      },
+      {
+        dimension: 'blue',
+        question: '8. 你做计划的习惯是？',
+        options: [
+          { text: 'A. 详细计划严格执行', value: 4 },
+          { text: 'B. 有计划灵活调整', value: 3 },
+          { text: 'C. 随机应变', value: 2 },
+          { text: 'D. 不做计划', value: 1 },
+          { text: 'E. 讨厌计划', value: 0 }
+        ]
+      },
+      {
+        dimension: 'blue',
+        question: '9. 你对待规则的态度是？',
+        options: [
+          { text: 'A. 严格遵守', value: 4 },
+          { text: 'B. 大部分遵守', value: 3 },
+          { text: 'C. 灵活处理', value: 2 },
+          { text: 'D. 偶尔打破', value: 1 },
+          { text: 'E. 无视规则', value: 0 }
+        ]
+      },
+      {
+        dimension: 'blue',
+        question: '10. 你喜欢哪种信息？',
+        options: [
+          { text: 'A. 详细数据分析', value: 4 },
+          { text: 'B. 重点信息', value: 3 },
+          { text: 'C. 简单概括', value: 2 },
+          { text: 'D. 不想看信息', value: 1 },
+          { text: 'E. 无所谓', value: 0 }
+        ]
+      },
+
+      // ==================== 黄色 - 社交力（5题）====================
+      {
+        dimension: 'yellow',
+        question: '11. 在社交场合，你通常会？',
+        options: [
+          { text: 'A. 成为焦点活跃气氛', value: 4 },
+          { text: 'B. 比较主动愿意交流', value: 3 },
+          { text: 'C. 看情况', value: 2 },
+          { text: 'D. 安静观察', value: 1 },
+          { text: 'E. 能躲就躲', value: 0 }
+        ]
+      },
+      {
+        dimension: 'yellow',
+        question: '12. 你表达情感的方式是？',
+        options: [
+          { text: 'A. 热情外放', value: 4 },
+          { text: 'B. 比较外放', value: 3 },
+          { text: 'C. 适中', value: 2 },
+          { text: 'D. 比较内敛', value: 1 },
+          { text: 'E. 情感内敛', value: 0 }
+        ]
+      },
+      {
+        dimension: 'yellow',
+        question: '13. 你对人际关系的看法是？',
+        options: [
+          { text: 'A. 越多越好喜欢社交', value: 4 },
+          { text: 'B. 需要一些朋友', value: 3 },
+          { text: 'C. 少而精', value: 2 },
+          { text: 'D. 一两个知心好友', value: 1 },
+          { text: 'E. 喜欢独处', value: 0 }
+        ]
+      },
+      {
+        dimension: 'yellow',
+        question: '14. 当你不同意别人时，你会？',
+        options: [
+          { text: 'A. 直接表达', value: 4 },
+          { text: 'B. 找机会表达', value: 3 },
+          { text: 'C. 看场合', value: 2 },
+          { text: 'D. 保持沉默', value: 1 },
+          { text: 'E. 永远同意', value: 0 }
+        ]
+      },
+      {
+        dimension: 'yellow',
+        question: '15. 你喜欢哪种沟通方式？',
+        options: [
+          { text: 'A. 面谈电话快速直接', value: 4 },
+          { text: 'B. 比较直接', value: 3 },
+          { text: 'C. 都可以', value: 2 },
+          { text: 'D. 文字沟通', value: 1 },
+          { text: 'E. 最怕沟通', value: 0 }
+        ]
+      },
+
+      // ==================== 绿色 - 稳定性（5题）====================
+      {
+        dimension: 'green',
+        question: '16. 面对压力时，你的反应是？',
+        options: [
+          { text: 'A. 冷静稳定', value: 4 },
+          { text: 'B. 比较冷静', value: 3 },
+          { text: 'C. 会有波动', value: 2 },
+          { text: 'D. 容易焦虑', value: 1 },
+          { text: 'E. 容易崩溃', value: 0 }
+        ]
+      },
+      {
+        dimension: 'green',
+        question: '17. 你的情绪特点是？',
+        options: [
+          { text: 'A. 稳定平和', value: 4 },
+          { text: 'B. 比较稳定', value: 3 },
+          { text: 'C. 波动适中', value: 2 },
+          { text: 'D. 容易波动', value: 1 },
+          { text: 'E. 情绪多变', value: 0 }
+        ]
+      },
+      {
+        dimension: 'green',
+        question: '18. 你对待变化的态度是？',
+        options: [
+          { text: 'A. 抗拒变化喜欢稳定', value: 4 },
+          { text: 'B. 有点抗拒', value: 3 },
+          { text: 'C. 可以接受', value: 2 },
+          { text: 'D. 欢迎变化', value: 1 },
+          { text: 'E. 喜欢变化', value: 0 }
+        ]
+      },
+      {
+        dimension: 'green',
+        question: '19. 别人请求你帮助时，你会？',
+        options: [
+          { text: 'A. 总是答应不好拒绝', value: 4 },
+          { text: 'B. 大部分答应', value: 3 },
+          { text: 'C. 看情况', value: 2 },
+          { text: 'D. 学会拒绝', value: 1 },
+          { text: 'E. 总是拒绝', value: 0 }
+        ]
+      },
+      {
+        dimension: 'green',
+        question: '20. 你对冲突的看法是？',
+        options: [
+          { text: 'A. 尽量避免', value: 4 },
+          { text: 'B. 有点逃避', value: 3 },
+          { text: 'C. 敢于面对', value: 2 },
+          { text: 'D. 喜欢冲突', value: 1 },
+          { text: 'E. 制造冲突', value: 0 }
+        ]
+      }
     ],
     results: {
-      types: [
-        { bazi: 1, name: '木命人', element: '木', desc: '你是木命人，性格仁慈。', detail: '木命人天生具有生发之气，性格温和善良，有向上进取的心。你适合从事教育、文化、艺术类行业。2026年木气旺盛，你的事业运势上升，但要注意肝胆健康。命中喜用神为水，建议多接触水性事物。' },
-        { bazi: 2, name: '火命人', element: '火', desc: '你是火命人，热情洋溢。', detail: '火命人热情开朗，思维活跃，有强烈的表现欲。你适合从事演艺、销售、创业类行业。2026年火气偏旺，注意心血管健康。命中喜用神为木，建议多接触绿色植物。' },
-        { bazi: 3, name: '土命人', element: '土', desc: '你是土命人，稳重厚道。', detail: '土命人性格稳重踏实，为人厚道，有责任感。你适合从事管理、金融、农业类行业。2026年土气平稳，财运不错。命中喜用神为火，建议多接触红色事物。' },
-        { bazi: 4, name: '金命人', element: '金', desc: '你是金命人，果断刚毅。', detail: '金命人性格刚毅果断，有决断力，善于分析。你适合从事金融、法律、技术类行业。2026年金气旺盛，事业发展顺利。命中喜用神为土，建议多接触陶瓷器物。' }
-      ]
+      red: {
+        name: '红色-行动派',
+        icon: '🔥',
+        color: '#E74C3C',
+        description: '你是行动力超强的行动派',
+        detail: '【核心特质】\n红色性格的人天生具有强大的行动力和执行力。你们充满活力，热爱挑战，总是迫不及待地想要行动。你们是那种"想到了就去做"的人，不喜欢等待和拖延。\n\n【优势】\n• 行动力强，执行效率高\n• 勇于尝试，不惧失败\n• 充满热情和能量\n• 善于激励和带动他人\n• 决策果断，不犹豫\n\n【挑战】\n• 可能过于冲动，缺乏深思熟虑\n• 容易缺乏耐心\n• 有时可能忽略细节\n• 可能给他人造成压力\n\n【人际关系】\n你喜欢快速直接的沟通方式，能够带动团队氛围。但有时需要学会倾听他人的意见，给他人表达的机会。\n\n【职业建议】\n适合需要快速行动和决策的岗位：创业者、销售、项目管理、指挥官。',
+        primary: '红色',
+        secondary: null
+      },
+      blue: {
+        name: '蓝色-思考派',
+        icon: '💎',
+        color: '#3498DB',
+        description: '你是深思熟虑的思考派',
+        detail: '【核心特质】\n蓝色性格的人注重思考和分析。你们追求完美，喜欢深入探究事物的本质。你们是那种"三思而后行"的人，会花时间思考再做出决定。\n\n【优势】\n• 思维缜密，分析能力强\n• 注重细节，追求完美\n• 有计划性和组织性\n• 遵守规则和原则\n• 善于分析和解决问题\n\n【挑战】\n• 可能过度思考而犹豫不决\n• 可能过于追求完美\n• 情感表达相对内敛\n• 可能对他人要求过高\n\n【人际关系】\n你重视深度交流，善于分析问题。但需要学会更多地表达情感，关注他人的感受。\n\n【职业建议】\n适合需要深度分析和精确执行的岗位：科学家、工程师、设计师、财务分析师、研究员。',
+        primary: '蓝色',
+        secondary: null
+      },
+      yellow: {
+        name: '黄色-社交派',
+        icon: '☀️',
+        color: '#F1C40F',
+        description: '你是热情洋溢的社交派',
+        detail: '【核心特质】\n黄色性格的人天生具有强大的社交能力。你们热情开朗，喜欢与人交流，总是能够带动氛围。你们是那种"见面熟"的人，容易与他人建立联系。\n\n【优势】\n• 社交能力强，人脉广\n• 表达能力强，善于沟通\n• 充满热情和正能量\n• 影响力和感染力强\n• 适应能力强，善于变通\n\n【挑战】\n• 可能过于关注表面关系\n• 可能缺乏深度\n• 有时可能过于在意他人看法\n• 可能难以独处\n\n【人际关系】\n你喜欢社交，善于表达情感，能够快速与他人建立联系。但需要学会培养深度关系，不要只停留在表面。\n\n【职业建议】\n适合需要人际沟通和影响力 的岗位：销售、公关、主持人、教师、导游、经纪人。',
+        primary: '黄色',
+        secondary: null
+      },
+      green: {
+        name: '绿色-稳定派',
+        icon: '🌿',
+        color: '#27AE60',
+        description: '你是温暖稳定的支持派',
+        detail: '【核心特质】\n绿色性格的人注重稳定和和谐。你们温柔体贴，总是关心他人的感受，喜欢支持和帮助他人。你们是那种"老好人"，善于照顾和陪伴。\n\n【优势】\n• 情绪稳定，心态平和\n• 善于倾听和理解他人\n• 有耐心，善于支持他人\n• 注重和谐，避免冲突\n• 忠诚可靠，值得信赖\n\n【挑战】\n• 可能过于迁就他人\n• 可能缺乏主见\n• 可能害怕变化和冲突\n• 可能过度付出\n\n【人际关系】\n你是最温暖、最体贴的朋友，总是给予他人支持和理解。但需要学会表达自己的需求，不要总是迁就他人。\n\n【职业建议】\n适合需要关怀和支持的岗位：心理咨询师、教师、护士、社工、行政助理、服务行业。',
+        primary: '绿色',
+        secondary: null
+      }
     }
   },
-  // 职业兴趣测试
-  {
-    code: 'career',
-    name: '职业兴趣测试',
-    description: '36题 · 找到适合你的职业方向',
-    price: 24.9,
-    icon: '💼',
-    color: '#E5F0FF',
-    paid: 0,
-    category: 'career',
-    status: 1,
-    questions: [
-      { question: '你更喜欢的工作环境是？', options: [{ text: '办公室/室内', r: 1 }, { text: '户外/出差', i: 1 }, { text: '灵活多变', a: 1 }, { text: '团队协作', s: 1 }] },
-      { question: '你更擅长？', options: [{ text: '分析数据', i: 1 }, { text: '与人沟通', s: 1 }, { text: '创意设计', a: 1 }, { text: '执行操作', r: 1 }] },
-      { question: '你更看重工作的？', options: [{ text: '收入和发展', e: 1 }, { text: '兴趣和意义', a: 1 }, { text: '稳定和安全', c: 1 }, { text: '自由和时间', i: 1 }] },
-      { question: '遇到问题时，你会？', options: [{ text: '自己思考解决', i: 1 }, { text: '请教他人', s: 1 }, { text: '寻找新方法', a: 1 }, { text: '按规则处理', c: 1 }] },
-      { question: '你更喜欢的工作方式是？', options: [{ text: '独立完成', i: 1 }, { text: '团队合作', s: 1 }, { text: '指导他人', e: 1 }, { text: '按计划执行', c: 1 }] },
-      { question: '你更喜欢的工作内容？', options: [{ text: '处理数据和文件', c: 1 }, { text: '帮助和服务他人', s: 1 }, { text: '创意和设计', a: 1 }, { text: '管理和领导', e: 1 }] },
-      { question: '你更容易被什么激励？', options: [{ text: '成就感和认可', e: 1 }, { text: '创新和自由', a: 1 }, { text: '稳定和保障', c: 1 }, { text: '帮助他人', s: 1 }] },
-      { question: '你更喜欢的工作节奏？', options: [{ text: '快节奏有挑战', e: 1 }, { text: '按部就班', c: 1 }, { text: '灵活自由', a: 1 }, { text: '平稳舒适', s: 1 }] },
-      { question: '你更关注？', options: [{ text: '结果和效率', e: 1 }, { text: '过程和体验', a: 1 }, { text: '规则和秩序', c: 1 }, { text: '人和关系', s: 1 }] },
-      { question: '你更喜欢的工作类型？', options: [{ text: '技术和专业', i: 1 }, { text: '商业和销售', e: 1 }, { text: '艺术和创意', a: 1 }, { text: '服务和教育', s: 1 }] },
-      { question: '你处理压力的方式？', options: [{ text: '冷静分析', i: 1 }, { text: '倾诉分享', s: 1 }, { text: '暂时逃避', a: 1 }, { text: '努力克服', e: 1 }] },
-      { question: '你对自己的定位是？', options: [{ text: '专家/技术人才', i: 1 }, { text: '领导者/管理者', e: 1 }, { text: '创意人才', a: 1 }, { text: '服务型人才', s: 1 }] }
-    ],
-    results: {
-      types: [
-        { type: 'R', name: '实用型', desc: '喜欢动手操作，务实踏实', detail: '【职业类型解读】\n你是典型的实用型人格，喜欢通过实际操作来完成任务，享受动手工作的过程。\n\n【性格特点】\n• 喜欢具体、实际的工作，讨厌抽象的理论\n• 动手能力强，善于操作工具和设备\n• 喜欢户外工作或需要身体活动的工作\n• 务实踏实，重视实际成果\n\n【工作偏好】\n你适合从事需要动手能力、技术技能的工作。你喜欢明确的任务和可操作的工作流程，不喜欢模糊不清的要求。\n\n【推荐职业】\n工程师、技术员、机械师、厨师、摄影师、农业工作者、维修技师、运动员。\n\n【发展建议】\n发挥你动手能力强的优势，在技术领域深耕。如果有兴趣，可以向技术管理方向发展。', careers: ['工程师', '技术员', '机械师', '厨师', '摄影师', '维修技师'] },
-        { type: 'I', name: '研究型', desc: '喜欢分析和研究问题', detail: '【职业类型解读】\n你是典型的研究型人格，喜欢独立思考和深入分析问题。\n\n【性格特点】\n• 喜欢独立工作，享受思考的过程\n• 善于分析问题，喜欢探索未知领域\n• 理性客观，注重逻辑和数据\n• 有强烈的好奇心和求知欲\n\n【工作偏好】\n你适合从事需要深度思考和专业知识的科研类工作。你喜欢有足够自由度和挑战性的工作，能够让你深入研究感兴趣的问题。\n\n【推荐职业】\n科学家、研究员、程序员、数据分析师、金融分析师、医生、大学教授。\n\n【发展建议】\n继续发挥你分析能力强的优势，在专业领域深耕。可以考虑往技术专家或学术研究方向发展。', careers: ['科学家', '研究员', '程序员', '数据分析师', '大学教授', '金融分析师'] },
-        { type: 'A', name: '艺术型', desc: '有创造力，追求个性表达', detail: '【职业类型解读】\n你是典型的艺术型人格，富有创造力，追求个性化的表达方式。\n\n【性格特点】\n• 富有想象力和创造力，喜欢自由发挥\n• 追求美感和独特性，不喜欢千篇一律\n• 喜欢独立工作，按自己的方式做事\n• 重视自我表达和创意实现\n\n【工作偏好】\n你适合从事需要创造力和艺术感的职业。你不喜欢被束缚，需要足够的创作自由空间。\n\n【推荐职业】\n设计师、作家、艺术家、音乐家、摄影师、创意总监、广告策划。\n\n【发展建议】\n保持你的创意优势，同时学会在商业环境中表达创意。可以考虑往创意总监或独立艺术家方向发展。', careers: ['设计师', '艺术家', '作家', '摄影师', '音乐家', '创意总监'] },
-        { type: 'S', name: '社会型', desc: '喜欢帮助他人，人际交往能力强', detail: '【职业类型解读】\n你是典型的社会型人格，喜欢帮助他人，善于与人交往。\n\n【性格特点】\n• 喜欢与人打交道，善于沟通交流\n• 有同理心，愿意帮助他人解决问题\n• 重视人际关系，喜欢团队合作\n• 善于理解和照顾他人感受\n\n【工作偏好】\n你适合从事需要与人交流、服务他人的职业。你在帮助他人的过程中获得成就感和满足感。\n\n【推荐职业】\n教师、心理咨询师、护士、社工、HR、培训师、导游、服务行业。\n\n【发展建议】\n发挥你人际交往能力强的优势，在教育、服务或人力资源领域发展。可以考虑往管理或培训方向发展。', careers: ['教师', '心理咨询师', '护士', '社工', 'HR', '培训师'] },
-        { type: 'E', name: '企业型', desc: '有领导力，追求成就', detail: '【职业类型解读】\n你是典型的企业型人格，有强烈的领导欲望和成就动机。\n\n【性格特点】\n• 有领导才能，善于组织和激励团队\n• 追求成功和成就，有强烈的目标导向\n• 喜欢有挑战性的工作，不害怕竞争\n• 善于影响他人，有说服力\n\n【工作偏好】\n你适合从事需要领导能力和商业头脑的职业。你喜欢有挑战性的目标，享受成功带来的成就感。\n\n【推荐职业】\n企业管理者、创业者、销售经理、律师、投资人、政治家、军官。\n\n【发展建议】\n发挥你的领导才能，在商业或管理领域发展。学会平衡目标导向和团队合作，会让你走得更远。', careers: ['企业管理者', '创业者', '销售经理', '投资人', '项目经理', '政治家'] },
-        { type: 'C', name: '常规型', desc: '喜欢有条理的工作', detail: '【职业类型解读】\n你是典型的常规型人格，喜欢有组织、有条理的工作环境。\n\n【性格特点】\n• 喜欢按部就班，有明确的工作流程\n• 注重细节，善于处理琐碎的事务\n• 可靠负责，能够严格按照要求完成任务\n• 善于组织和规划，重视效率和准确性\n\n【工作偏好】\n你适合从事需要细心、有条理的职业。你在处理文件和 数据方面有天然的优势。\n\n【推荐职业】\n会计、审计师、行政人员、图书馆员、数据录入、档案管理、质量控制。\n\n【发展建议】\n发挥你细心和条理性强的优势，在财务或行政领域深耕。考虑往专业方向发展，如CPA、审计师等。', careers: ['会计', '审计师', '行政人员', '数据分析师', '质量控制', '档案管理'] }
-      ]
-    }
-  },
-  // 情商测试
+
+  // ==================== EQ情商测试 ====================
   {
     code: 'eq',
-    name: '情商测试',
-    description: '30题 · 测测你的情商有多高',
-    price: 19.9,
+    name: 'EQ情商测试',
+    description: '20题 · 测量你的情商水平',
+    price: 0,
     icon: '🧡',
-    color: '#FFE5E5',
-    paid: 0,
+    color: '#E5FFFF',
     category: 'psychology',
+    paid: 0,
     status: 1,
+    questionCount: 20,
     questions: [
-      { question: '当你生气时，你会？', options: [{ text: '深呼吸，冷静下来', eq: 3 }, { text: '找朋友倾诉', eq: 2 }, { text: '发泄出来', eq: 1 }, { text: '压抑在心里', eq: 0 }] },
-      { question: '当你感到压力时，你会？', options: [{ text: '积极寻找解决方案', eq: 3 }, { text: '暂时放松一下', eq: 2 }, { text: '担心焦虑', eq: 1 }, { text: '逃避拖延', eq: 0 }] },
-      { question: '当别人批评你时，你会？', options: [{ text: '虚心接受并改进', eq: 3 }, { text: '反思但不一定改', eq: 2 }, { text: '感到沮丧', eq: 1 }, { text: '立即反驳', eq: 0 }] },
-      { question: '当你与朋友发生矛盾时，你会？', options: [{ text: '主动沟通解决', eq: 3 }, { text: '等对方先道歉', eq: 2 }, { text: '冷战一段时间', eq: 1 }, { text: '直接绝交', eq: 0 }] },
-      { question: '当你取得成绩时，你会？', options: [{ text: '低调庆祝，继续努力', eq: 3 }, { text: '和朋友分享', eq: 2 }, { text: '到处炫耀', eq: 1 }, { text: '觉得自己不够好', eq: 0 }] },
-      { question: '当别人取得成绩时，你会？', options: [{ text: '真诚祝福，学习借鉴', eq: 3 }, { text: '有点羡慕', eq: 2 }, { text: '感到嫉妒', eq: 1 }, { text: '贬低对方', eq: 0 }] },
-      { question: '当你需要帮助时，你会？', options: [{ text: '主动寻求帮助', eq: 3 }, { text: '看情况', eq: 2 }, { text: '自己硬扛', eq: 1 }, { text: '觉得自己不配', eq: 0 }] },
-      { question: '当你安慰别人时，你会？', options: [{ text: '倾听并给出建议', eq: 3 }, { text: '陪伴并安慰', eq: 2 }, { text: '讲道理', eq: 1 }, { text: '不知所措', eq: 0 }] },
-      { question: '你经常换位思考吗？', options: [{ text: '经常', eq: 3 }, { text: '有时', eq: 2 }, { text: '很少', eq: 1 }, { text: '从不', eq: 0 }] },
-      { question: '你能控制自己的情绪吗？', options: [{ text: '完全能', eq: 3 }, { text: '基本能', eq: 2 }, { text: '偶尔失控', eq: 1 }, { text: '经常失控', eq: 0 }] },
-      { question: '当你犯错误时，你会？', options: [{ text: '勇于承认并改正', eq: 3 }, { text: '找借口', eq: 2 }, { text: '逃避责任', eq: 1 }, { text: '责怪他人', eq: 0 }] },
-      { question: '你善于表达自己的情感吗？', options: [{ text: '非常善于', eq: 3 }, { text: '还好', eq: 2 }, { text: '不太善于', eq: 1 }, { text: '完全不会', eq: 0 }] }
+      // ==================== 自我情绪认知（4题）====================
+      {
+        dimension: 'selfAwareness',
+        question: '1. 你能准确识别自己当下的情绪状态吗？',
+        options: [
+          { text: 'A. 完全可以准确描述', value: 5 },
+          { text: 'B. 大部分可以', value: 4 },
+          { text: 'C. 偶尔可以', value: 3 },
+          { text: 'D. 很少意识到', value: 2 },
+          { text: 'E. 完全不能', value: 1 }
+        ]
+      },
+      {
+        dimension: 'selfAwareness',
+        question: '2. 当你情绪变化时，你能说出具体感受吗？',
+        options: [
+          { text: 'A. 能很清楚描述', value: 5 },
+          { text: 'B. 能大概知道', value: 4 },
+          { text: 'C. 偶尔能', value: 3 },
+          { text: 'D. 很难描述', value: 2 },
+          { text: 'E. 完全不能', value: 1 }
+        ]
+      },
+      {
+        dimension: 'selfAwareness',
+        question: '3. 你的情绪会因为什么而波动最大？',
+        options: [
+          { text: 'A. 工作学习压力', value: 3 },
+          { text: 'B. 人际关系', value: 3 },
+          { text: 'C. 生活琐事', value: 2 },
+          { text: 'D. 天气环境', value: 2 },
+          { text: 'E. 没有波动', value: 5 }
+        ]
+      },
+      {
+        dimension: 'selfAwareness',
+        question: '4. 你通常在什么情况下会意识到自己情绪不好？',
+        options: [
+          { text: 'A. 刚出现就能察觉', value: 5 },
+          { text: 'B. 明显表现后才察觉', value: 4 },
+          { text: 'C. 事后才意识到', value: 3 },
+          { text: 'D. 需要别人提醒', value: 2 },
+          { text: 'E. 从未意识到', value: 1 }
+        ]
+      },
+
+      // ==================== 情绪管理（4题）====================
+      {
+        dimension: 'selfManagement',
+        question: '5. 当你非常生气时，你会怎么做？',
+        options: [
+          { text: 'A. 离开现场深呼吸冷静处理', value: 5 },
+          { text: 'B. 暂时压抑事后调节', value: 4 },
+          { text: 'C. 找朋友倾诉宣泄', value: 3 },
+          { text: 'D. 发泄出来', value: 2 },
+          { text: 'E. 压抑在心里', value: 1 }
+        ]
+      },
+      {
+        dimension: 'selfManagement',
+        question: '6. 面对工作压力，你会？',
+        options: [
+          { text: 'A. 制定计划有条理解决', value: 5 },
+          { text: 'B. 先紧张后想办法', value: 4 },
+          { text: 'C. 焦虑但不动手', value: 3 },
+          { text: 'D. 拖延逃避', value: 2 },
+          { text: 'E. 完全崩溃', value: 1 }
+        ]
+      },
+      {
+        dimension: 'selfManagement',
+        question: '7. 当你感到焦虑时，你会？',
+        options: [
+          { text: 'A. 分析原因采取行动', value: 5 },
+          { text: 'B. 自我安慰放松', value: 4 },
+          { text: 'C. 找事做转移注意力', value: 3 },
+          { text: 'D. 陷入担忧无法自拔', value: 2 },
+          { text: 'E. 逃避', value: 1 }
+        ]
+      },
+      {
+        dimension: 'selfManagement',
+        question: '8. 你的情绪恢复速度通常是？',
+        options: [
+          { text: 'A. 很快能快速调节', value: 5 },
+          { text: 'B. 比较快', value: 4 },
+          { text: 'C. 一般', value: 3 },
+          { text: 'D. 比较慢', value: 2 },
+          { text: 'E. 很慢很久恢复', value: 1 }
+        ]
+      },
+
+      // ==================== 自我激励（4题）====================
+      {
+        dimension: 'motivation',
+        question: '9. 面对挫折失败，你会？',
+        options: [
+          { text: 'A. 总结教训重新出发', value: 5 },
+          { text: 'B. 会沮丧但能调整', value: 4 },
+          { text: 'C. 很久无法释怀', value: 3 },
+          { text: 'D. 彻底放弃', value: 2 },
+          { text: 'E. 逃避失败', value: 1 }
+        ]
+      },
+      {
+        dimension: 'motivation',
+        question: '10. 你能为了长期目标放弃即时满足吗？',
+        options: [
+          { text: 'A. 完全可以自律', value: 5 },
+          { text: 'B. 大部分可以', value: 4 },
+          { text: 'C. 偶尔可以', value: 3 },
+          { text: 'D. 很难做到', value: 2 },
+          { text: 'E. 完全不行', value: 1 }
+        ]
+      },
+      {
+        dimension: 'motivation',
+        question: '11. 当动力不足时，你会？',
+        options: [
+          { text: 'A. 自我激励重新找到动力', value: 5 },
+          { text: 'B. 休息后再试', value: 4 },
+          { text: 'C. 等别人激励', value: 3 },
+          { text: 'D. 放弃', value: 2 },
+          { text: 'E. 从没有动力', value: 1 }
+        ]
+      },
+      {
+        dimension: 'motivation',
+        question: '12. 面对困难任务，你会？',
+        options: [
+          { text: 'A. 迎难而上', value: 5 },
+          { text: 'B. 犹豫但会尝试', value: 4 },
+          { text: 'C. 想退缩', value: 3 },
+          { text: 'D. 直接放弃', value: 2 },
+          { text: 'E. 从不尝试', value: 1 }
+        ]
+      },
+
+      // ==================== 共情能力（4题）====================
+      {
+        dimension: 'socialAwareness',
+        question: '13. 当朋友向你倾诉烦恼时，你会？',
+        options: [
+          { text: 'A. 感同身受积极倾听', value: 5 },
+          { text: 'B. 会倾听但不太理解', value: 4 },
+          { text: 'C. 给建议多于共情', value: 3 },
+          { text: 'D. 不耐烦', value: 2 },
+          { text: 'E. 不想听', value: 1 }
+        ]
+      },
+      {
+        dimension: 'socialAwareness',
+        question: '14. 你能感知到别人的情绪变化吗？',
+        options: [
+          { text: 'A. 非常敏感立刻察觉', value: 5 },
+          { text: 'B. 比较敏感', value: 4 },
+          { text: 'C. 一般', value: 3 },
+          { text: 'D. 较迟钝', value: 2 },
+          { text: 'E. 完全察觉不到', value: 1 }
+        ]
+      },
+      {
+        dimension: 'socialAwareness',
+        question: '15. 别人情绪低落时，你会？',
+        options: [
+          { text: 'A. 主动关心支持陪伴', value: 5 },
+          { text: 'B. 会关心但不知怎么做', value: 4 },
+          { text: 'C. 假装没看到', value: 3 },
+          { text: 'D. 躲得远远的', value: 2 },
+          { text: 'E. 觉得是负担', value: 1 }
+        ]
+      },
+      {
+        dimension: 'socialAwareness',
+        question: '16. 你认为理解他人情绪重要吗？',
+        options: [
+          { text: 'A. 非常重要', value: 5 },
+          { text: 'B. 比较重要', value: 4 },
+          { text: 'C. 一般', value: 3 },
+          { text: 'D. 不太重要', value: 2 },
+          { text: 'E. 完全不重要', value: 1 }
+        ]
+      },
+
+      // ==================== 社交技巧（4题）====================
+      {
+        dimension: 'relationshipManagement',
+        question: '17. 你擅长化解冲突吗？',
+        options: [
+          { text: 'A. 非常擅长能调和矛盾', value: 5 },
+          { text: 'B. 比较擅长', value: 4 },
+          { text: 'C. 一般', value: 3 },
+          { text: 'D. 不太会', value: 2 },
+          { text: 'E. 回避冲突', value: 1 }
+        ]
+      },
+      {
+        dimension: 'relationshipManagement',
+        question: '18. 与陌生人交流，你会？',
+        options: [
+          { text: 'A. 自然放松主动交流', value: 5 },
+          { text: 'B. 有点紧张但能交流', value: 4 },
+          { text: 'C. 非常紧张', value: 3 },
+          { text: 'D. 能躲就躲', value: 2 },
+          { text: 'E. 完全无法交流', value: 1 }
+        ]
+      },
+      {
+        dimension: 'relationshipManagement',
+        question: '19. 你会主动维护人际关系吗？',
+        options: [
+          { text: 'A. 经常主动联系朋友', value: 5 },
+          { text: 'B. 偶尔会', value: 4 },
+          { text: 'C. 很少', value: 3 },
+          { text: 'D. 几乎不', value: 2 },
+          { text: 'E. 从不', value: 1 }
+        ]
+      },
+      {
+        dimension: 'relationshipManagement',
+        question: '20. 当你和别人发生矛盾，你会怎么处理？',
+        options: [
+          { text: 'A. 主动沟通解决', value: 5 },
+          { text: 'B. 等对方主动和解', value: 4 },
+          { text: 'C. 冷战', value: 3 },
+          { text: 'D. 逃避', value: 2 },
+          { text: 'E. 永不往来', value: 1 }
+        ]
+      }
     ],
     results: {
-      ranges: [
-        { max: 15, name: '情商偏低', level: '需要提升', desc: '你的情商还有很大提升空间', detail: '【情商解读】\n你的情商目前处于需要提升的阶段，但这并不意味着你无法改变。情商是可以通过学习和练习来提升的。\n\n【情绪管理】\n你可能在面对压力和负面情绪时，还不知道如何有效地处理。容易出现情绪化的反应，或者选择逃避问题。\n\n【人际关系】\n你可能在理解他人感受和处理人际关系方面还有待提高。有时候会忽略他人的情绪，或者不知道如何表达自己的情感。\n\n【提升建议】\n1. 情绪管理：当感到情绪激动时，试着深呼吸，暂停10秒再做反应\n2. 换位思考：在与他人发生冲突时，试着站在对方的角度思考问题\n3. 主动倾听：在别人说话时，不要急于表达自己的观点，先认真听完\n4. 情绪记录：每天记录自己的情绪变化，分析触发情绪的原因\n\n【行动清单】\n• 每天花10分钟进行情绪复盘\n• 每周主动联系一位老朋友\n• 学会说"我理解你的感受"\n• 培养一个缓解压力的兴趣爱好\n\n记住，情商是可以训练的，关键在于持续练习。' },
-        { max: 25, name: '情商中等', level: '一般水平', desc: '你的情商处于一般水平', detail: '【情商解读】\n你的情商处于中等水平，已经具备了一些基本的情商技巧，但在某些方面还有提升空间。\n\n【情绪管理】\n你基本能够控制自己的情绪，但在高压情况下可能会有波动。你已经学会了一些情绪调节的方法，但还需要进一步精进。\n\n【人际关系】\n你能够理解他人的感受，但在表达和处理复杂人际关系时还有改进空间。你有自己的社交圈，但可能还需要提升人际关系的深度。\n\n【提升建议】\n1. 深化情绪觉察：学会识别细微的情绪变化，在情绪爆发前及时察觉\n2. 增强同理心：尝试更深入地理解他人的处境和感受\n3. 提升沟通技巧：学会非暴力沟通的表达方式\n4. 建立情感支持系统：与信任的人分享内心感受\n\n【行动清单】\n• 学习非暴力沟通技巧\n• 尝试管理一个团队项目，锻炼领导力\n• 定期进行冥想或正念练习\n• 主动承担一些协调性质的工作\n\n你已经具备了不错的基础，继续练习会让你的情商更上一层楼。' },
-        { max: 36, name: '情商较高', level: '优秀', desc: '你的情商比较高', detail: '【情商解读】\n恭喜你！你的情商处于较高的水平。你在情绪管理和人际关系方面都表现得相当出色。\n\n【情绪管理】\n你能够很好地识别和管理自己的情绪。即使在压力情况下，也能保持冷静和理性。你有成熟的情绪调节策略，不容易被情绪左右。\n\n【人际关系】\n你善于理解他人的感受和需求，能够建立深厚的人际关系。你是朋友眼中的"知心人"，大家愿意向你倾诉。你在人际交往中游刃有余，能够恰当处理各种复杂的关系。\n\n【自我认知】\n你对自己有清晰的认识，了解自己的情绪模式和行为习惯。你能够客观地评价自己，不断寻求成长和进步。\n\n【未来发展】\n1. 发挥你的情商优势，在团队管理和人际协调方面发挥更大作用\n2. 尝试更具挑战性的领导岗位\n3. 分享你的情商经验，帮助他人提升\n4. 持续学习，保持情商的持续成长\n\n【行动清单】\n• 承担更多团队协调工作\n• 考虑往管理岗位发展\n• 分享你的经验，帮助朋友提升情商\n• 持续学习心理学和管理学知识\n\n你是高情商人群中的优秀代表，继续发挥你的优势，你会在人生的各个领域都取得成功！' }
-      ]
+      high: {
+        name: '高情商',
+        icon: '🌟',
+        color: '#4CAF50',
+        description: '你拥有出色的情商能力',
+        detail: '【总体评价】\n你展现出较高的情商水平，在自我认知、情绪管理、自我激励、共情能力和社交技巧方面都有出色的表现。\n\n【自我认知】\n你能够准确识别和理解自己的情绪状态，对自身的情绪有清晰的认知。\n\n【情绪管理】\n你能够有效地调节和管理自己的情绪，在压力下保持冷静。\n\n【自我激励】\n你有强大的内在动力，能够在挫折后快速调整并继续前进。\n\n【共情能力】\n你能够敏锐地感知他人的情绪，并给予适当的支持和理解。\n\n【社交技巧】\n你善于处理人际关系，能够有效地化解冲突和维护关系。\n\n【建议】\n继续保持并发扬你的情商优势，可以尝试在更具挑战的人际场景中锻炼自己。'
+      },
+      mediumHigh: {
+        name: '中高情商',
+        icon: '🌿',
+        color: '#8BC34A',
+        description: '你的情商表现良好',
+        detail: '【总体评价】\n你的���商水平良好，在大多数情况下能够较好地处理情绪和人际关系。\n\n【自我认知】\n你基本能够识别自己的情绪，但有时可能不够及时或准确。\n\n【情绪管理】\n你能够调节情绪，但在强烈情绪下可能需要更好的应对策略。\n\n【自我激励】\n你有内在动力，但在面对重大挫折时可能需要更长时间恢复。\n\n【共情能力】\n你能够理解他人情绪，但在繁忙时可能忽略他人的感受。\n\n【社交技巧】\n你有一定的人际技巧，但在处理复杂冲突时可能需要提升。\n\n【建议】\n关注自己的薄弱环节，有意识地练习情绪调节和人际沟通技巧。'
+      },
+      medium: {
+        name: '中等情商',
+        icon: '🌱',
+        color: '#FF9800',
+        description: '你的情商处于中等水平',
+        detail: '【总体评价】\n你的情商处于一般水平，在情绪认知和管理方面有一定的提升空间。\n\n【自我认知】\n你有时能意识到自己的情绪，但可能不够及时或深入。\n\n【情绪管理】\n你有一定的情绪调节能力，但在压力下可能容易失控。\n\n【自我激励】\n你有基本的动力，但可能容易放弃或拖延。\n\n【共情能力】\n你能理解他人，但可能更关注自己的感受。\n\n【社交技巧】\n你有基本的人际交往能力，但可能不够主动或灵活。\n\n【建议】\n可以尝试学习情绪管理技巧，如正念冥想、情绪日记等，提升自我认知和调节能力。'
+      },
+      mediumLow: {
+        name: '中低情商',
+        icon: '🍂',
+        color: '#FF5722',
+        description: '你的情商需要提升',
+        detail: '【总体评价】\n你的情商水平有较大的提升空间，在情绪认知和管理方面需要更多关注。\n\n【自我认知】\n你可能较少关注自己的情绪状态，有时会忽略自己的感受。\n\n【情绪管理】\n你可能在面对强烈情绪时缺乏有效的调节方法，容易被情绪左右。\n\n【自我激励】\n你可能更容易在挫折面前放弃，需要更强的内在动力。\n\n【共情能力】\n你可能更关注自己的感受，对他人情绪的感知不够敏感。\n\n【社交技巧】\n你可能在人际交往中比较被动，不太擅长处理冲突。\n\n【建议】\n建议从基础开始，学习情绪认知和管理技巧。可以尝试每天花几分钟反思自己的情绪，学习一些情绪调节的方法。'
+      },
+      low: {
+        name: '情商待提升',
+        icon: '💪',
+        color: '#F44336',
+        description: '建议加强情商培养',
+        detail: '【总体评价】\n你的情商水平需要重点提升。这不是批评，而是提醒你关注个人成长。\n\n【自我认知】\n建议你开始关注自己的情绪变化，尝试用词语描述自己的感受。\n\n【情绪管理】\n建议你学习一些情绪调节的方法，如深呼吸、暂时离开现场等。\n\n【自我激励】\n建议从小目标开始，建立成功的体验，培养内在动力。\n\n【共情能力】\n建议在与人交流时，多关注对方的表情和语气，尝试理解对方的感受。\n\n【社交技巧】\n建议主动参与一些社交活动，学习基本的沟通技巧和冲突处理方法。\n\n【建议】\n情商是可以通过练习提升的。从今天开始，每天花一点时间反思自己的情绪，学习一些基本的情商技巧。'
+      }
     }
   }
 ]
 
-// API基础URL（支持环境变量配置）
-const API_BASE = import.meta.env.VITE_API_BASE ? `${import.meta.env.VITE_API_BASE}/quiz` : '/api/quiz'
-
-// 从后端API获取数据
-async function fetchFromAPI(endpoint) {
-  try {
-    // 添加时间戳防止缓存
-    const timestamp = Date.now()
-    const url = `${API_BASE}${endpoint}${endpoint.includes('?') ? '&' : '?'}_t=${timestamp}`
-
-    // 设置5秒超时
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 5000)
-
-    const response = await fetch(url, { signal: controller.signal })
-    clearTimeout(timeoutId)
-
-    const result = await response.json()
-    if (result.code === 0) {
-      return result.data
-    }
-    return null
-  } catch (e) {
-    console.error('API请求失败:', e)
-    return null
-  }
-}
-
-// 获取测试列表（对外接口）
-// 优化：优先使用本地数据，后台可配置是否从API获取最新数据
-export async function getQuizList() {
-  // 检查是否需要从API刷新（可通过localStorage配置）
-  const needRefresh = localStorage.getItem('quiz_refresh_needed') === '1'
-
-  if (needRefresh) {
-    // 尝试从API获取最新数据
-    const data = await fetchFromAPI('/all')
-    if (data && data.length > 0) {
-      localStorage.setItem('quiz_refresh_needed', '0') // 刷新成功后清除标记
-      return data
-        .filter(q => q.status === 1)
-        .map(q => ({
-          code: q.code,
-          name: q.name,
-          description: q.description,
-          price: q.price,
-          icon: q.icon,
-          color: q.color,
-          category: q.category,
-          questionCount: q.questionCount || q.questions?.length || 0
-        }))
-    }
-  }
-
-  // 优先使用本地默认数据（最稳定，加载最快）
-  return quizzes
-    .filter(q => q.status !== 0)
-    .map(q => ({
-      code: q.code,
-      name: q.name,
-      description: q.description,
-      price: q.price,
-      icon: q.icon,
-      color: q.color,
-      category: q.category,
-      questionCount: q.questions.length
-    }))
-}
-
-// 标记需要刷新数据（后台同步后调用）
-export function markQuizRefreshNeeded() {
-  localStorage.setItem('quiz_refresh_needed', '1')
-}
-
-// 根据code获取测试详情
-// 优化：优先使用本地数据，避免等待API超时
-export async function getQuizByCode(code) {
-  // 获取本地quiz作为模板（包含完整的题目结构如scoring）
-  const localQuiz = quizzes.find(q => q.code === code)
-
-  // 检查是否需要从API刷新
-  const needRefresh = localStorage.getItem('quiz_refresh_needed') === '1'
-
-  if (needRefresh) {
-    // 尝试从API获取最新数据
-    const allData = await fetchFromAPI('/all')
-    if (allData && allData.length > 0) {
-      const found = allData.find(q => q.code === code)
-      // 如果数据库有题目数据，合并本地模板的题目结构
-      if (found && found.questions && found.questions.length > 0) {
-        // 合并数据：用数据库的题目数量，但使用本地模板的题目结构(scoring等)
-        if (localQuiz && localQuiz.questions) {
-          found.questions = found.questions.map((q, idx) => {
-            const localQ = localQuiz.questions[idx]
-            if (localQ) {
-              // 保留本地模板的计分逻辑
-              return {
-                ...q,
-                dimension: localQ.dimension || q.dimension,
-                scoring: localQ.scoring,
-                // 如果选项没有value，使用本地模板
-                options: q.options?.map((opt, optIdx) => ({
-                  ...opt,
-                  value: opt.value ?? (optIdx + 1)
-                })) || localQ.options
-              }
-            }
-            return q
-          })
-        }
-        // 确保有status字段，默认设为1（上架状态）
-        if (!found.status) {
-          found.status = 1
-        }
-        // 确保有paid字段
-        if (found.paid === undefined) {
-          found.paid = localQuiz?.paid || 0
-        }
-        // 刷新成功后清除标记
-        localStorage.setItem('quiz_refresh_needed', '0')
-        return found
-      }
-    }
-  }
-
-  // 优先使用本地数据（最稳定，加载最快）
-  if (localQuiz) {
-    return localQuiz
-  }
-
-  return quizzes.find(q => q.code === code)
-}
-
-// 同步数据到后端（管理后台使用）
-export async function syncQuizzesToServer(quizzes) {
-  try {
-    const apiKey = import.meta.env.VITE_ADMIN_API_KEY || 'admin-sync-key-2024'
-    const response = await fetch(`${API_BASE}/sync`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': apiKey
-      },
-      body: JSON.stringify({ quizzes })
-    })
-    const result = await response.json()
-    if (result.code === 0) {
-      // 同步成功后，标记前台需要刷新数据
-      markQuizRefreshNeeded()
-      return { success: true, message: result.message }
-    }
-    return { success: false, message: result.message || '同步失败' }
-  } catch (e) {
-    console.error('同步失败:', e)
-    return { success: false, message: '网络错误' }
-  }
-}
-
-// 同步所有本地测试到服务器
-export async function syncAllQuizzesToServer() {
-  return await syncQuizzesToServer(quizzes)
-}
-
-// 从后端获取所有数据（管理后台使用）
-export async function getAllQuizzesFromServer() {
-  const data = await fetchFromAPI('/all')
-  return data || []
-}
+// ==================== 计算函数 ====================
 
 // 计算MBTI结果
 export function calculateMBTI(answers, questions) {
   const scores = { e: 0, i: 0, s: 0, n: 0, t: 0, f: 0, j: 0, p: 0 }
 
-  answers.forEach((answerValue, qIndex) => {
+  answers.forEach((answerIndex, qIndex) => {
+    if (answerIndex === undefined) return
     const question = questions[qIndex]
-    if (!question || !question.scoring || answerValue === undefined) return
-
-    const answer = question.options[answerValue - 1]
+    if (!question) return
+    const answer = question.options[answerIndex]
     if (!answer) return
 
-    // 获取对应的分数
-    const scoreKey = question.scoring[answerValue]
-    if (scoreKey) {
-      scores[scoreKey]++
-    }
+    const value = answer.value
+    if (value === 'e' || value === 'E') scores.e++
+    else if (value === 'i' || value === 'I') scores.i++
+    else if (value === 's' || value === 'S') scores.s++
+    else if (value === 'n' || value === 'N') scores.n++
+    else if (value === 't' || value === 'T') scores.t++
+    else if (value === 'f' || value === 'F') scores.f++
+    else if (value === 'j' || value === 'J') scores.j++
+    else if (value === 'p' || value === 'P') scores.p++
   })
 
   let result = ''
+  // 平局时使用 >= 默认选择前者(E/S/T/J)
   result += scores.e >= scores.i ? 'E' : 'I'
   result += scores.s >= scores.n ? 'S' : 'N'
   result += scores.t >= scores.f ? 'T' : 'F'
@@ -939,7 +1232,56 @@ export function calculateMBTI(answers, questions) {
   return result
 }
 
-// 计算心理年龄结果
+// 计算MBTI结果和分数（用于雷达图）
+export function calculateMBTIWithScores(answers, questions) {
+  const scores = { e: 0, i: 0, s: 0, n: 0, t: 0, f: 0, j: 0, p: 0 }
+
+  answers.forEach((answerIndex, qIndex) => {
+    if (answerIndex === undefined) return
+    const question = questions[qIndex]
+    if (!question) return
+    const answer = question.options[answerIndex]
+    if (!answer) return
+
+    const value = answer.value
+    if (value === 'e' || value === 'E') scores.e++
+    else if (value === 'i' || value === 'I') scores.i++
+    else if (value === 's' || value === 'S') scores.s++
+    else if (value === 'n' || value === 'N') scores.n++
+    else if (value === 't' || value === 'T') scores.t++
+    else if (value === 'f' || value === 'F') scores.f++
+    else if (value === 'j' || value === 'J') scores.j++
+    else if (value === 'p' || value === 'P') scores.p++
+  })
+
+  let result = ''
+  // 平局时使用 >= 默认选择前者(E/S/T/J)
+  result += scores.e >= scores.i ? 'E' : 'I'
+  result += scores.s >= scores.n ? 'S' : 'N'
+  result += scores.t >= scores.f ? 'T' : 'F'
+  result += scores.j >= scores.p ? 'J' : 'P'
+
+  // 归一化分数到0-100范围
+  const totalEI = scores.e + scores.i || 1
+  const totalSN = scores.s + scores.n || 1
+  const totalTF = scores.t + scores.f || 1
+  const totalJP = scores.j + scores.p || 1
+
+  const normalizedScores = {
+    e: Math.round((scores.e / totalEI) * 100),
+    i: Math.round((scores.i / totalEI) * 100),
+    s: Math.round((scores.s / totalSN) * 100),
+    n: Math.round((scores.n / totalSN) * 100),
+    t: Math.round((scores.t / totalTF) * 100),
+    f: Math.round((scores.f / totalTF) * 100),
+    j: Math.round((scores.j / totalJP) * 100),
+    p: Math.round((scores.p / totalJP) * 100)
+  }
+
+  return { type: result, scores: normalizedScores }
+}
+
+// 计算心理成熟度结果
 export function calculatePsychologicalAge(answers, questions) {
   let totalScore = 0
 
@@ -948,15 +1290,37 @@ export function calculatePsychologicalAge(answers, questions) {
     const question = questions[qIndex]
     if (!question) return
     const answer = question.options[answerIndex]
-    if (answer && answer.age !== undefined) {
-      totalScore += answer.age
+    if (!answer) return
+    if (answer.value !== undefined) {
+      totalScore += answer.value
     }
   })
 
-  // 基准心理年龄25岁，加减分数
-  const psychologicalAge = 25 + totalScore
+  // 总分12-48分（每题1-4分）
+  // 36-48分 → 成熟度：高
+  // 24-35分 → 成熟度：中
+  // 12-23分 → 成熟度：偏低
+  // <12分 → 成熟度：需提升（实际上不会发生，因为最低是12分）
 
-  return psychologicalAge
+  let resultKey
+  let level
+  if (totalScore >= 36) {
+    resultKey = 'high'
+    level = '高'
+  } else if (totalScore >= 24) {
+    resultKey = 'medium'
+    level = '中'
+  } else if (totalScore >= 12) {
+    resultKey = 'low'
+    level = '偏低'
+  }
+  // 最低12分，不会出现<12的情况
+
+  return {
+    level,
+    totalScore,
+    resultKey
+  }
 }
 
 // 计算性格色彩结果
@@ -966,110 +1330,128 @@ export function calculateColor(answers, questions) {
   answers.forEach((answerIndex, qIndex) => {
     if (answerIndex === undefined) return
     const question = questions[qIndex]
-    if (!question) return
+    if (!question || !question.dimension) return
     const answer = question.options[answerIndex]
     if (!answer) return
 
-    if (answer.red) scores.red += answer.red
-    if (answer.blue) scores.blue += answer.blue
-    if (answer.yellow) scores.yellow += answer.yellow
-    if (answer.green) scores.green += answer.green
+    if (question.dimension === 'red') scores.red += answer.value || 0
+    else if (question.dimension === 'blue') scores.blue += answer.value || 0
+    else if (question.dimension === 'yellow') scores.yellow += answer.value || 0
+    else if (question.dimension === 'green') scores.green += answer.value || 0
   })
 
-  // 找出最高分
-  const maxScore = Math.max(scores.red, scores.blue, scores.yellow, scores.green)
-  const colors = []
-  if (scores.red === maxScore) colors.push('red')
-  if (scores.blue === maxScore) colors.push('blue')
-  if (scores.yellow === maxScore) colors.push('yellow')
-  if (scores.green === maxScore) colors.push('green')
+  // 找出最高分和次高分
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1])
+  const primary = sorted[0][0]
+  const secondary = sorted[1][0]
 
-  return colors[0] // 返回主色
-}
-
-// 计算星座结果
-export function calculateStar(answers, questions) {
-  const scores = { 1: 0, 2: 0, 3: 0, 4: 0 }
-
-  answers.forEach((answerIndex, qIndex) => {
-    if (answerIndex === undefined) return
-    const question = questions[qIndex]
-    if (!question) return
-    const answer = question.options[answerIndex]
-    if (answer && answer.star) scores[answer.star]++
-  })
-
-  const maxScore = Math.max(scores[1], scores[2], scores[3], scores[4])
-  let result = 1
-  for (let i = 2; i <= 4; i++) {
-    if (scores[i] === maxScore) result = i
+  return {
+    primary,
+    secondary,
+    scores
   }
-
-  return result
-}
-
-// 计算八字结果
-export function calculateBazi(answers, questions) {
-  const scores = { 1: 0, 2: 0, 3: 0, 4: 0 }
-
-  answers.forEach((answerIndex, qIndex) => {
-    if (answerIndex === undefined) return
-    const question = questions[qIndex]
-    if (!question) return
-    const answer = question.options[answerIndex]
-    if (answer && answer.bazi) scores[answer.bazi]++
-  })
-
-  const maxScore = Math.max(scores[1], scores[2], scores[3], scores[4])
-  let result = 1
-  for (let i = 2; i <= 4; i++) {
-    if (scores[i] === maxScore) result = i
-  }
-
-  return result
-}
-
-// 计算职业测试结果
-export function calculateCareer(answers, questions) {
-  const scores = { r: 0, i: 0, a: 0, s: 0, e: 0, c: 0 }
-
-  answers.forEach((answerIndex, qIndex) => {
-    if (answerIndex === undefined) return
-    const question = questions[qIndex]
-    if (!question) return
-    const answer = question.options[answerIndex]
-    if (!answer) return
-    if (answer.r) scores.r += answer.r
-    if (answer.i) scores.i += answer.i
-    if (answer.a) scores.a += answer.a
-    if (answer.s) scores.s += answer.s
-    if (answer.e) scores.e += answer.e
-    if (answer.c) scores.c += answer.c
-  })
-
-  const maxScore = Math.max(scores.r, scores.i, scores.a, scores.s, scores.e, scores.c)
-  const typeMap = { r: 'R', i: 'I', a: 'A', s: 'S', e: 'E', c: 'C' }
-
-  for (const key in scores) {
-    if (scores[key] === maxScore) return typeMap[key]
-  }
-
-  return 'R'
 }
 
 // 计算情商结果
 export function calculateEQ(answers, questions) {
+  const dimensions = {
+    selfAwareness: { score: 0, name: '自我认知', questions: 4 },
+    selfManagement: { score: 0, name: '情绪管理', questions: 4 },
+    motivation: { score: 0, name: '自我激励', questions: 4 },
+    socialAwareness: { score: 0, name: '共情能力', questions: 4 },
+    relationshipManagement: { score: 0, name: '社交技巧', questions: 4 }
+  }
+
   let totalScore = 0
 
   answers.forEach((answerIndex, qIndex) => {
     if (answerIndex === undefined) return
     const question = questions[qIndex]
-    if (!question) return
+    if (!question || !question.dimension) return
     const answer = question.options[answerIndex]
-    if (answer && answer.eq !== undefined) {
-      totalScore += answer.eq
+    if (!answer) return
+
+    const value = answer.value || 0
+    totalScore += value
+
+    if (dimensions[question.dimension]) {
+      dimensions[question.dimension].score += value
     }
   })
 
-  return totalScore
+  // 总分20-100分（每题1-5分）
+  let resultKey
+  let level
+  if (totalScore >= 80) {
+    resultKey = 'high'
+    level = '高情商'
+  } else if (totalScore >= 60) {
+    resultKey = 'mediumHigh'
+    level = '中高情商'
+  } else if (totalScore >= 40) {
+    resultKey = 'medium'
+    level = '中等情商'
+  } else if (totalScore >= 20) {
+    resultKey = 'mediumLow'
+    level = '中低情商'
+  }
+  // 最低20分，不会出现<20的情况
+
+  return {
+    totalScore,
+    level,
+    resultKey,
+    dimensions: Object.entries(dimensions).map(([, dim]) => ({
+      name: dim.name,
+      score: dim.score,
+      maxScore: dim.questions * 5,
+      percentage: Math.round((dim.score / (dim.questions * 5)) * 100)
+    }))
+  }
+}
+
+// 星座测试结果（已停用，保留函数兼容性）
+export function calculateStar(answers, questions) {
+  return '1'
+}
+
+// 八字测试结果（已停用，保留函数兼容性）
+export function calculateBazi(answers, questions) {
+  return '1'
+}
+
+// 职业测试结果（已停用，保留函数兼容性）
+export function calculateCareer(answers, questions) {
+  return 'R'
+}
+
+// 同步测试到服务器（已停用，保留函数兼容性）
+export async function syncQuizzesToServer(quizzes) {
+  return { success: true, message: '已停用同步功能' }
+}
+
+// 从服务器获取所有测试（已停用，保留函数兼容性）
+export async function getAllQuizzesFromServer() {
+  return []
+}
+
+// 获取测试列表
+export function getQuizList() {
+  return quizzes.map(q => ({
+    code: q.code,
+    name: q.name,
+    description: q.description,
+    price: q.price,
+    icon: q.icon,
+    color: q.color,
+    category: q.category,
+    status: q.status,
+    paid: q.paid,
+    questionCount: q.questionCount
+  }))
+}
+
+// 根据code获取测试
+export function getQuizByCode(code) {
+  return quizzes.find(q => q.code === code) || null
 }

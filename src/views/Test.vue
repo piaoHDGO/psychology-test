@@ -34,45 +34,61 @@
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
         </div>
-        <div class="progress-text">
-          <span>第 {{ currentIndex + 1 }} / {{ quiz.questions?.length || 0 }} 题</span>
-          <span class="progress-save">已保存</span>
+        <div class="progress-info">
+          <div class="progress-left">
+            <span>第 {{ currentIndex + 1 }} 题 · 共 {{ quiz.questions?.length || 0 }} 题</span>
+            <span class="dimension-tag" v-if="currentQuestion?.dimension">{{ currentQuestion.dimension }} 维度</span>
+          </div>
+          <div class="save-status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            已自动保存
+          </div>
+        </div>
+        <div class="time-estimate">
+          ⏱️ 预计剩余时间：约 {{ estimatedTime }} 分钟
         </div>
       </div>
 
       <!-- 问题区域 -->
       <div class="question-area">
-        <!-- 上一题按钮 -->
-        <div class="nav-header" v-if="currentIndex > 0">
-          <button class="btn-prev" @click="prevQuestion">
-            <span class="prev-icon">‹</span> 上一题
-          </button>
-        </div>
+        <div class="question-card" :key="currentIndex">
+          <div class="question-category" v-if="currentQuestion?.category">
+            📋 {{ currentQuestion.category }}
+          </div>
+          <div class="question-number">第 {{ currentIndex + 1 }} 题</div>
+          <h2 class="question-text">{{ currentQuestion?.content || currentQuestion?.question || '加载中...' }}</h2>
 
-        <h2 class="question-text">{{ currentQuestion?.content || currentQuestion?.question || '加载中...' }}</h2>
-
-        <div class="options">
-          <div
-            v-for="(option, index) in (currentQuestion?.options || [])"
-            :key="index"
-            class="option"
-            :class="{ selected: isOptionSelected(index) }"
-            @click="selectOption(index)"
-          >
-            <span class="option-letter">{{ letters[index] }}</span>
-            <span class="option-text">{{ option.text }}</span>
+          <div class="options">
+            <div
+              v-for="(option, index) in (currentQuestion?.options || [])"
+              :key="index"
+              class="option"
+              :class="{ selected: isOptionSelected(index) }"
+              @click="selectOption(index)"
+            >
+              <div class="option-radio"></div>
+              <span class="option-text">{{ option.text }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 底部按钮 -->
-      <div class="footer">
+      <div class="bottom-actions">
+        <button class="btn btn-prev" :disabled="currentIndex === 0" @click="prevQuestion">
+          ← 上一题
+        </button>
+        <button class="btn btn-save" @click="saveTemporarily">
+          💾 暂时保存
+        </button>
         <button
-          class="btn btn-primary btn-block"
+          class="btn btn-next"
           :disabled="!hasAnswered"
           @click="nextOrSubmit"
         >
-          {{ isLastQuestion ? '查看结果' : '下一题' }}
+          {{ isLastQuestion ? '查看结果' : '下一题 →' }}
         </button>
       </div>
     </template>
@@ -82,7 +98,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getQuizByCode, calculateMBTI, calculatePsychologicalAge, calculateColor, calculateStar, calculateBazi, calculateCareer, calculateEQ } from '@/data/quizzes'
+import { calculateMBTI, calculateMBTIWithScores, calculatePsychologicalAge, calculateColor, calculateStar, calculateBazi, calculateCareer, calculateEQ, getQuizByCode } from '@/data/quizzes'
 import { useUserStore } from '@/stores/user'
 
 const route = useRoute()
@@ -124,11 +140,18 @@ watch(() => route.params.code, async (newCode) => {
   }
 }, { immediate: false })
 
-const letters = ['A', 'B', 'C', 'D']
+const letters = ['A', 'B', 'C', 'D', 'E']
 
 const progressPercent = computed(() => {
   if (!quiz.value) return 0
   return ((currentIndex.value + 1) / quiz.value.questions.length) * 100
+})
+
+// 预计剩余时间（假设每题约15秒）
+const estimatedTime = computed(() => {
+  if (!quiz.value) return 0
+  const remaining = quiz.value.questions.length - currentIndex.value - 1
+  return Math.max(1, Math.ceil(remaining * 0.25))
 })
 
 const currentQuestion = computed(() => {
@@ -148,12 +171,8 @@ const hasAnswered = computed(() => {
 
 // 检查选项是否被选中
 function isOptionSelected(index) {
-  const answer = answers.value[currentIndex.value]
-  if (quiz.value?.code === 'mbti') {
-    // MBTI使用value比较
-    return answer === currentQuestion.value?.options?.[index]?.value
-  }
-  return answer === index
+  // 对于所有测试类型，都使用索引比较，避免value重复导致的多选问题
+  return answers.value[currentIndex.value] === index
 }
 
 // 加载测试数据
@@ -163,13 +182,15 @@ async function loadQuiz(code) {
   currentIndex.value = 0
 
   try {
-    quiz.value = await getQuizByCode(code)
-    console.log('加载测试数据:', quiz.value)
+    // 从本地题库获取测试
+    const localQuiz = getQuizByCode(code)
 
-    if (!quiz.value) {
+    if (!localQuiz) {
       router.push('/')
       return
     }
+
+    quiz.value = localQuiz
 
     // 检查测试是否上线
     if (quiz.value.status !== 1) {
@@ -234,13 +255,8 @@ onMounted(async () => {
 })
 
 function selectOption(index) {
-  // 对于MBTI测试，使用选项的值(1-5)，其他测试使用索引
-  if (quiz.value.code === 'mbti') {
-    const question = quiz.value.questions[currentIndex.value]
-    answers.value[currentIndex.value] = question.options[index].value
-  } else {
-    answers.value[currentIndex.value] = index
-  }
+  // 所有测试类型都使用索引存储
+  answers.value[currentIndex.value] = index
 
   // 保存进度到localStorage（带时间戳）
   localStorage.setItem(`progress_${quiz.value.code}`, JSON.stringify({
@@ -264,6 +280,16 @@ function prevQuestion() {
   }
 }
 
+// 暂时保存
+function saveTemporarily() {
+  localStorage.setItem(`progress_${quiz.value.code}`, JSON.stringify({
+    answers: answers.value,
+    currentIndex: currentIndex.value,
+    savedAt: new Date().toISOString()
+  }))
+  alert('已保存，下次可继续作答')
+}
+
 function nextOrSubmit() {
   if (isLastQuestion.value) {
     submitTest()
@@ -283,8 +309,19 @@ function submitTest() {
   let detailReport = ''
   let careers = []
 
+  // MBTI分数（用于雷达图）
+  let mbtiScores = null
+  // 性格色彩分数（用于匹配度）
+  let colorScores = null
+  // 心理年龄维度得分（用于5维度分析）
+  let ageDimensions = null
+  // EQ维度得分（用于结果页展示）
+  let eqDimensions = null
+
   if (quiz.value.code === 'mbti') {
-    resultType = calculateMBTI(answers.value, quiz.value.questions)
+    const mbtiResult = calculateMBTIWithScores(answers.value, quiz.value.questions)
+    resultType = mbtiResult.type
+    mbtiScores = mbtiResult.scores
     // 支持数组 types 和对象两种结构
     const results = quiz.value.results || {}
     let result = null
@@ -300,27 +337,30 @@ function submitTest() {
       careers = result.careers
     }
   } else if (quiz.value.code === 'age') {
-    const age = calculatePsychologicalAge(answers.value, quiz.value.questions)
-    // 找到对应的结果范围
-    const ranges = quiz.value.results?.ranges || []
-    let result = ranges[ranges.length - 1]
-    for (const r of ranges) {
-      if (age <= r.max) {
-        result = r
-        break
-      }
-    }
-    resultType = result?.name || ''
-    resultName = result?.desc || ''
-    resultDesc = result?.name + ' - ' + result?.desc
-    detailReport = result?.detail || ''
+    // 计算心理成熟度结果
+    const ageResult = calculatePsychologicalAge(answers.value, quiz.value.questions)
+    // 根据resultKey获取对应的结果
+    const results = quiz.value.results || {}
+    const result = results[ageResult.resultKey] || {}
+    resultType = ageResult.level
+    resultName = result.name || ageResult.level
+    resultDesc = result.description || ''
+    detailReport = result.detail || ''
+    // 保存维度得分用于结果页展示（将总分转换为百分比）
+    ageDimensions = [{ name: '心理成熟度', score: ageResult.totalScore, levelScore: Math.round((ageResult.totalScore / 48) * 100), level: ageResult.level }]
   } else if (quiz.value.code === 'color') {
-    resultType = calculateColor(answers.value, quiz.value.questions)
-    const types = quiz.value.results?.types || []
-    const result = types.find(t => t.color === resultType)
+    // 计算颜色分数（用于职业匹配度）
+    // 计算性格色彩结果
+    const colorResult = calculateColor(answers.value, quiz.value.questions)
+    colorScores = colorResult.scores
+    resultType = colorResult.primary
+
+    // 从结果对象中获取对应颜色的结果
+    const results = quiz.value.results || {}
+    const result = results[colorResult.primary] || {}
     if (result) {
       resultName = result.name
-      resultDesc = result.desc
+      resultDesc = result.description
       detailReport = result.detail
       careers = result.strengths
     }
@@ -356,21 +396,17 @@ function submitTest() {
       careers = result.careers
     }
   } else if (quiz.value.code === 'eq') {
-    const eqScore = calculateEQ(answers.value, quiz.value.questions)
-    resultType = String(eqScore)
-    const ranges = quiz.value.results?.ranges || []
-    let result = ranges[ranges.length - 1]
-    for (const r of ranges) {
-      if (eqScore <= r.max) {
-        result = r
-        break
-      }
-    }
-    if (result) {
-      resultName = result.level || result.name || ''
-      resultDesc = result.desc || ''
-      detailReport = result.detail || ''
-    }
+    // 计算情商结果
+    const eqResult = calculateEQ(answers.value, quiz.value.questions)
+    // 根据resultKey获取对应的结果
+    const results = quiz.value.results || {}
+    const result = results[eqResult.resultKey] || {}
+    resultType = eqResult.level
+    resultName = result.name || eqResult.level
+    resultDesc = result.description || ''
+    detailReport = result.detail || ''
+    // 保存维度得分用于结果页展示
+    eqDimensions = eqResult.dimensions
   }
 
   // 生成结果ID
@@ -409,25 +445,39 @@ function submitTest() {
     createdAt: new Date().toISOString()
   }
 
+  // 计算总分用于结果页显示
+  let totalScore = 0
+  if (quiz.value.code === 'mbti' && mbtiScores) {
+    totalScore = Object.values(mbtiScores).reduce((a, b) => a + b, 0)
+  } else if (quiz.value.code === 'age') {
+    totalScore = ageDimensions?.[0]?.score || 0
+  } else if (quiz.value.code === 'color' && colorScores) {
+    totalScore = Object.values(colorScores).reduce((a, b) => a + b, 0)
+  } else if (quiz.value.code === 'eq') {
+    totalScore = eqDimensions?.reduce((a, b) => a + b.score, 0) || 0
+  }
+
   // 存储到用户历史（包含完整报告用于后续解锁）
   const fullResult = {
     ...testResult,
+    score: totalScore,  // 保存总分
     detailReport,
     careers,
     price: quiz.value.price,
     paid: quiz.value.paid || 0,  // 标记是否为付费测试
     isPaid: quiz.value.paid === 1,  // 当前测试是否为付费测试
+    mbtiScores,  // MBTI维度分数（用于雷达图）
+    colorScores,  // 性格色彩分数（用于匹配度计算）
+    ageDimensions,  // 心理年龄5维度得分
+    eqDimensions,  // EQ维度得分
     icon,
     functions,
     chart
   }
-  console.log('Saving result:', fullResult)
   userStore.saveTestResult(fullResult)
 
   // 记录测试完成统计
   recordStat('test_complete', quiz.value.code)
-
-  console.log('Result saved, redirecting to:', `/result/${resultId}`)
 
   // 跳转到结果页
   router.push(`/result/${resultId}`)
@@ -437,7 +487,7 @@ function submitTest() {
 <style lang="scss" scoped>
 .test-page {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #F5F7FA;
   display: flex;
   flex-direction: column;
 }
@@ -469,142 +519,320 @@ function submitTest() {
   100% { transform: rotate(360deg); }
 }
 
+/* 顶部进度条 */
 .progress-header {
-  background: white;
-  padding: 16px 20px;
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 10;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  z-index: 100;
 
   .progress-bar {
-    height: 4px;
-    background: #f0f0f0;
-    border-radius: 2px;
+    height: 6px;
+    background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+    border-radius: 3px;
     overflow: hidden;
-    margin-bottom: 10px;
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      border-radius: 2px;
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, #3B82F6, #8B5CF6);
+      transition: width 0.4s ease;
     }
   }
 
-  .progress-text {
+  .progress-info {
     display: flex;
     justify-content: space-between;
-    font-size: 13px;
-    color: #999;
+    align-items: center;
+    padding: 16px 20px;
+    max-width: 800px;
+    margin: 0 auto;
 
-    .progress-save {
-      color: #52c41a;
+    .progress-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 14px;
+      color: #6B7280;
+
+      strong {
+        color: #1F2937;
+      }
+
+      .dimension-tag {
+        padding: 4px 10px;
+        background: #EEF2FF;
+        color: #4F46E5;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 6px;
+      }
+    }
+
+    .save-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #10B981;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  .time-estimate {
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 13px;
+    padding: 8px 20px;
+    text-align: center;
+  }
+}
+
+/* 问题区域 */
+.question-area {
+  flex: 1;
+  padding: 100px 24px 140px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.question-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 48px;
+  animation: slideUp 0.4s ease;
+  width: 100%;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-category {
+  display: inline-block;
+  padding: 6px 14px;
+  background: #EEF2FF;
+  color: #4F46E5;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.question-number {
+  font-size: 14px;
+  color: #9CA3AF;
+  margin-bottom: 12px;
+}
+
+.question-text {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #1F2937;
+  margin-bottom: 28px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  gap: 14px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  padding: 20px 24px;
+  min-height: 72px;
+  margin-bottom: 14px;
+  background: #F9FAFB;
+  border: 2px solid #E5E7EB;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #3B82F6;
+    background: #EFF6FF;
+  }
+
+  &.selected {
+    background: #EFF6FF;
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+
+    .option-radio {
+      border-color: #3B82F6;
+
+      &::after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background: #3B82F6;
+        border-radius: 50%;
+      }
     }
   }
 }
 
-.question-area {
-  flex: 1;
-  padding: 30px 20px;
+.option-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #D1D5DB;
+  border-radius: 50%;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
 
-  .nav-header {
-    margin-bottom: 20px;
+.option-text {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #374151;
+  line-height: 1.5;
+}
 
-    .btn-prev {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 16px;
-      background: #f5f5f5;
-      border: none;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.2s;
+/* 底部操作 */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 16px 24px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 
-      &:hover {
-        background: #e8e8e8;
-        color: #333;
-      }
+  .btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-      .prev-icon {
-        font-size: 20px;
-        margin-right: 4px;
-      }
+  .btn-prev {
+    background: #F3F4F6;
+    color: #374151;
+    border: none;
+
+    &:hover {
+      background: #E5E7EB;
     }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-save {
+    background: white;
+    color: #6B7280;
+    border: 2px solid #E5E7EB;
+
+    &:hover {
+      border-color: #9CA3AF;
+      color: #374151;
+    }
+  }
+
+  .btn-next {
+    background: linear-gradient(135deg, #3B82F6, #6366F1);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59,130,246,0.4);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+  .question-area {
+    padding: 90px 16px 130px;
+  }
+
+  .question-card {
+    padding: 24px 20px;
   }
 
   .question-text {
     font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
   }
 
   .option {
-    display: flex;
-    align-items: center;
-    padding: 16px 20px;
-    background: white;
-    border: 2px solid #f0f0f0;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    padding: 14px 16px;
+  }
 
-    &:active {
-      transform: scale(0.98);
-    }
+  .option-text {
+    font-size: 15px;
+  }
 
-    &.selected {
-      border-color: #667eea;
-      background: #f0edff;
+  .bottom-actions {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
 
-      .option-letter {
-        background: #667eea;
-        color: white;
-      }
-    }
-
-    .option-letter {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #f5f5f5;
-      color: #666;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .btn {
+      padding: 12px 16px;
       font-size: 14px;
-      font-weight: 600;
-      margin-right: 12px;
-      flex-shrink: 0;
     }
 
-    .option-text {
-      font-size: 15px;
-      color: #333;
-      line-height: 1.5;
+    .btn-save {
+      order: 3;
+      width: 100%;
+      justify-content: center;
     }
   }
-}
 
-.footer {
-  background: white;
-  padding: 16px 20px 30px;
-  border-top: 1px solid #f0f0f0;
-
-  .btn {
-    padding: 16px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 30px;
+  .progress-info {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 }
 

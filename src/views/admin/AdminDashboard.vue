@@ -95,8 +95,8 @@
               </td>
               <td>{{ getCategoryName(quiz.category) }}</td>
               <td class="price">¥{{ quiz.price }}</td>
-              <td>{{ Math.floor(Math.random() * 1000) + 100 }}</td>
-              <td class="revenue">¥{{ (Math.random() * 5000 + 500).toFixed(2) }}</td>
+              <td>{{ quizStats[quiz.code] || 0 }}</td>
+              <td class="revenue">¥{{ (quizRevenues[quiz.code] || 0).toFixed(2) }}</td>
               <td>
                 <span class="status-badge active">上线中</span>
               </td>
@@ -151,6 +151,9 @@ const weekLabels = ['周一', '周二', '周三', '周四', '周五', '周六', 
 
 const pieData = ref([])
 
+const quizStats = ref({})
+const quizRevenues = ref({})
+
 // 从API获取统计数据
 async function fetchStats() {
   try {
@@ -172,33 +175,18 @@ async function fetchStats() {
         const maxTests = Math.max(...tests, 1)
         weekData.value = tests.map(t => (t / maxTests) * 100)
       }
+
+      // 更新每个测试的统计数据
+      quizStats.value = s.quizTestCounts || {}
+      quizRevenues.value = s.quizRevenues || {}
     }
   } catch (e) {
     console.error('获取统计数据失败:', e)
   }
 }
 
-// 获取测试类型分布
-async function fetchQuizStats() {
-  try {
-    const response = await fetch(`${API_BASE}/stats/stats?period=all`)
-    const data = await response.json()
-
-    if (data.code === 0 && data.data.trendData) {
-      // 从趋势数据计算各测试的分布
-      const quizCounts = {}
-      data.data.trendData.forEach(d => {
-        // 这里可以进一步获取每个quiz的统计
-      })
-    }
-  } catch (e) {
-    console.error('获取测试分布失败:', e)
-  }
-}
-
 onMounted(() => {
   fetchStats()
-  fetchQuizStats()
 })
 
 function getCategoryName(category) {

@@ -409,13 +409,13 @@ const traits = computed(() => {
 .dimension-labels {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .dimension-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .dim-label {
@@ -426,9 +426,9 @@ const traits = computed(() => {
 
 .dim-bar {
   flex: 1;
-  height: 8px;
+  height: 12px;
   background: #f0f0f0;
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -441,7 +441,7 @@ const traits = computed(() => {
 .functions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 .function-card {

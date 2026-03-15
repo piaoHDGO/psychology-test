@@ -1,11 +1,10 @@
 <template>
   <div class="quizzes-manage">
     <div class="page-header">
-      <h1 class="page-title">题库管理</h1>
-      <div class="header-actions">
-        <button class="btn-sync" @click="syncAllToDatabase">🔄 同步本地数据到数据库</button>
-        <button class="btn-add" @click="showAddModal = true">➕ 添加测试</button>
-      </div>
+      <h1 class="page-title">测试配置管理</h1>
+      <button class="btn-sync" @click="syncFromFrontend" :disabled="syncing">
+        {{ syncing ? '同步中...' : '🔄 同步前端' }}
+      </button>
     </div>
 
     <!-- 测试列表 -->
@@ -19,8 +18,6 @@
           </div>
           <div class="quiz-actions">
             <button class="btn-edit" @click="editQuiz(quiz)">编辑</button>
-            <button class="btn-questions" @click="editQuestions(quiz)">题目</button>
-            <button class="btn-results" @click="editResults(quiz)">报告模板</button>
             <button
               v-if="quiz.status === 1"
               class="btn-offline"
@@ -30,7 +27,7 @@
               v-else
               class="btn-online"
               @click="toggleStatus(quiz)"
-            >发布上线</button>
+            >上线</button>
           </div>
         </div>
         <div class="quiz-details">
@@ -190,18 +187,104 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { getQuizList, syncQuizzesToServer, getAllQuizzesFromServer } from '@/data/quizzes'
 import { quizzes as localQuizzes } from '@/data/quizzes'
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8080/api'
+
 const quizzes = ref([])
 const showEditModal = ref(false)
+const syncing = ref(false)
 
-// 页面加载时从服务器获取数据
-onMounted(async () => {
-  const data = await getAllQuizzesFromServer()
-  if (data && data.length > 0) {
-    quizzes.value = data
-  } else {
-    // 如果服务器没有数据，使用本地默认数据
-    quizzes.value = await getQuizList()
+// 从前端同步题库到后端
+async function syncFromFrontend() {
+  syncing.value = true
+  try {
+    // 获取前端本地题库（包含完整题目）
+    const { getQuizByCode } = await import('@/data/quizzes')
+
+    // 先获取后端当前状态
+    const statusRes = await fetch(`${API_BASE}/quiz/all`)
+    const statusData = await statusRes.json()
+    const backendStatus = {}
+    if (statusData.code === 0) {
+      statusData.data.forEach(q => {
+        backendStatus[q.code] = q.status
+      })
+    }
+
+    // 只同步4个主要测试
+    const allowedCodes = ['mbti', 'age', 'color', 'eq']
+    const quizzesToSync = []
+
+    for (const code of allowedCodes) {
+      const quiz = getQuizByCode(code)
+      if (quiz) {
+        quizzesToSync.push({
+          code: quiz.code,
+          name: quiz.name,
+          description: quiz.description,
+          price: quiz.price,
+          icon: quiz.icon,
+          color: quiz.color,
+          category: quiz.category,
+          questionCount: quiz.questions?.length || 0,
+          questions: quiz.questions || [],
+          results: quiz.results || {},
+          status: backendStatus[code] ?? 1,  // 保留后端状态，不强制覆盖
+          paid: quiz.paid || 0
+        })
+      }
+    }
+
+    for (const quiz of quizzesToSync) {
+      const response = await fetch(`${API_BASE}/quiz/config`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'Application/json' },
+        body: JSON.stringify(quiz)
+      })
+      const result = await response.json()
+      if (result.code !== 0) {
+        console.error(`同步 ${quiz.code} 失败:`, result.message)
+      } else {
+      }
+    }
+
+    // 同步完成后重新加载
+    await loadQuizzes()
+    alert('同步成功！')
+  } catch (error) {
+    console.error('同步失败:', error)
+    alert('同步失败: ' + error.message)
+  } finally {
+    syncing.value = false
   }
+}
+
+// 从后端加载题库
+async function loadQuizzes() {
+  try {
+    const response = await fetch(`${API_BASE}/quiz/all`)
+    const data = await response.json()
+    if (data.code === 0) {
+      quizzes.value = data.data.map(q => ({
+        code: q.code,
+        name: q.name,
+        description: q.description,
+        price: q.price,
+        icon: q.icon,
+        color: q.color,
+        category: q.category,
+        questionCount: q.questionCount,
+        status: q.status,
+        paid: q.paid
+      }))
+    }
+  } catch (error) {
+    console.error('加载失败:', error)
+  }
+}
+
+// 页面加载时从后端获取数据
+onMounted(async () => {
+  await loadQuizzes()
 })
 const showQuestionsModal = ref(false)
 const showResultsModal = ref(false)
@@ -215,22 +298,16 @@ const editForm = reactive({ code: '', name: '', description: '', price: 0, icon:
 
 const icons = ['🎯', '🧠', '🎨', '⭐', '🔮', '💼', '🧡', '💰', '📚', '🎭', '🦋', '🌟']
 const colors = ['#FFE5E5', '#E5F0FF', '#FFF4E5', '#F0E5FF', '#E5FFE5', '#FFE5E0', '#E5FFFF', '#FFF0E5']
-const syncing = ref(false)
 
-// 同步本地数据到数据库
+// 同步配置到服务器（可选）
 async function syncAllToDatabase() {
   if (syncing.value) return
   syncing.value = true
 
   try {
-    const result = await syncQuizzesToServer(localQuizzes)
+    const result = await syncQuizzesToServer(quizzes.value)
     if (result.success) {
       alert('同步成功！' + result.message)
-      // 刷新数据
-      const data = await getAllQuizzesFromServer()
-      if (data && data.length > 0) {
-        quizzes.value = data
-      }
     } else {
       alert('同步失败: ' + result.message)
     }
@@ -239,6 +316,12 @@ async function syncAllToDatabase() {
   } finally {
     syncing.value = false
   }
+}
+
+// 刷新前端测试列表（清理缓存并刷新）
+async function refreshQuizList() {
+  // 直接刷新浏览器页面，确保获取最新数据
+  window.location.reload()
 }
 
 function getCategoryName(category) {
@@ -258,18 +341,18 @@ function toggleStatus(quiz) {
 
   if (confirm(`确定要${action}「${quiz.name}」吗？`)) {
     quiz.status = newStatus
-    // 保存到本地存储
-    const quizList = JSON.parse(localStorage.getItem('quizzes') || '[]')
-    const index = quizList.findIndex(q => q.code === quiz.code)
-    if (index !== -1) {
-      quizList[index].status = newStatus
-      localStorage.setItem('quizzes', JSON.stringify(quizList))
-    }
+
+    // 保存到localStorage（前端专用）
+    const storedStatus = JSON.parse(localStorage.getItem('quiz_status') || '{}')
+    storedStatus[quiz.code] = newStatus
+    localStorage.setItem('quiz_status', JSON.stringify(storedStatus))
+
     // 同时更新 quizzes 响应式数组
     const localQuiz = quizzes.value.find(q => q.code === quiz.code)
     if (localQuiz) {
       localQuiz.status = newStatus
     }
+
     alert(`已${action}`)
   }
 }
@@ -395,6 +478,29 @@ async function saveQuiz() {
       font-size: 24px;
       font-weight: 600;
       color: #333;
+    }
+
+    .btn-sync {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #10B981, #34D399);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
     }
 
     .header-actions {
